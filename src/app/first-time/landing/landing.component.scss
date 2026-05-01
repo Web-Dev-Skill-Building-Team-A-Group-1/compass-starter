@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 2%;
+  overflow-y: scroll;
+  .landing-container {
+    display: flex;
+    height: 625px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .logo {
+       width: 164px;
+       height: 164px;
+       -webkit-user-drag: none;
+    }
+
+    .landing-text {
+      margin-top: 44px;
+      text-align: center;
+      width: 240px;
+
+      h3 {
+        font-size: 22px;
+        color: #909090;
+      }
+
+      h1 {
+        font-size: 60px;
+        color: #545756;
+        margin-top: -8px;
+      }
+
+      h2 {
+        font-size: 22;
+        color: #4B5853;
+        margin-top: 70px;
+        line-height: 28px;
+      }
+    }
+
+    .sign-in {
+      margin-top: 50px;
+      cursor: pointer;
+    }
+  }
+}
