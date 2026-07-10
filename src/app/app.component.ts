@@ -4,13 +4,14 @@ import { AuthStore } from './core/store/auth/auth.store';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LongTermGoalsHeaderComponent } from './main/home/long-term-goals/long-term-goals-header/long-term-goals-header.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet, LongTermGoalsHeaderComponent],
 })
 export class AppComponent implements OnInit {
   readonly authStore = inject(AuthStore);
