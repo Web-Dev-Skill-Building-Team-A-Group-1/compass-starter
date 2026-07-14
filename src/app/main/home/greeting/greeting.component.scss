@@ -1,7 +1,28 @@
 :host {
   display: block;
-  .greeting-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+.greeting-container {
+  width: 933.75px;
+  height: 95px;
+  background-color: #E1FBF9;
+  align-items: center;
+  justify-content: left;
+  display: flex;
+  padding-left: 3%;
+  
   }
+}
+
+.good-morning-text {
+  font-family: Oxygen;
+  font-weight: 400;
+  line-height: 100%;
+  color: #2DBDB1;
+  font-size: 40px;
+  
+  
+}
+
+
+.currentUser {
+  font-weight: 700;
 }
