@@ -4,7 +4,9 @@ import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
 import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
+import { WeeklyGoalsHeaderComponent } from './weekly-goals/weekly-goals-header/weekly-goals-header.component';
 import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.component';
+// TODO: Replace weekly goals header component in this file with weekly goals component!
 
 @Component({
   selector: 'app-home',
@@ -14,8 +16,10 @@ import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.compon
   standalone: true,
   animations: HomeAnimations,
   imports: [
+    NavbarComponent, WeeklyGoalsHeaderComponent
     NavbarComponent,
-    LongTermGoalsComponent
+    LongTermGoalsComponent,
+    WeeklyGoalsHeaderComponent
   ]
 })
 export class HomeComponent implements OnInit {
