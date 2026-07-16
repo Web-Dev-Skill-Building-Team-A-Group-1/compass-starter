@@ -4,6 +4,7 @@ import { AuthStore } from './core/store/auth/auth.store';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DateTimeComponent } from './main/home/date-time/date-time.component';
 import { GreetingComponent } from './main/home/greeting/greeting.component';
 
 import { LongTermGoalsHeaderComponent } from './main/home/long-term-goals/long-term-goals-header/long-term-goals-header.component';
@@ -13,8 +14,7 @@ import { LongTermGoalsHeaderComponent } from './main/home/long-term-goals/long-t
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, GreetingComponent,],
-  imports: [NavbarComponent, RouterOutlet, LongTermGoalsHeaderComponent],
+  imports: [NavbarComponent, RouterOutlet, DateTimeComponentGreetingComponent, LongTermGoalsHeaderComponent],
 })
 export class AppComponent implements OnInit {
   readonly authStore = inject(AuthStore);
