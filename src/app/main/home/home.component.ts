@@ -7,6 +7,7 @@ import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
 import { WeeklyGoalsHeaderComponent } from './weekly-goals/weekly-goals-header/weekly-goals-header.component';
 import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.component';
 // TODO: Replace weekly goals header component in this file with weekly goals component!
+import { QuarterlyGoalsComponent } from './quarterly-goals/quarterly-goals.component';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +17,10 @@ import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.compon
   standalone: true,
   animations: HomeAnimations,
   imports: [
-    NavbarComponent, WeeklyGoalsHeaderComponent
-    NavbarComponent,
-    LongTermGoalsComponent,
-    WeeklyGoalsHeaderComponent
+    NavbarComponent, 
+    WeeklyGoalsHeaderComponent,
+    LongTermGoalsComponent, 
+    QuarterlyGoalsComponent
   ]
 })
 export class HomeComponent implements OnInit {
