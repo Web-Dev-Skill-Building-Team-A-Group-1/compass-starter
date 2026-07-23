@@ -6,8 +6,6 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
 import { getQuarterAndYear } from '../../../../core/utils/time.utils'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
 @Component({
   selector: 'app-quarterly-goals-header',
   templateUrl: './quarterly-goals-header.component.html',

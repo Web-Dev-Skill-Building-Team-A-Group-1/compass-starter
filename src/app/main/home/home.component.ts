@@ -17,8 +17,10 @@ import { QuarterlyGoalsComponent } from './quarterly-goals/quarterly-goals.compo
   standalone: true,
   animations: HomeAnimations,
   imports: [
-    NavbarComponent, WeeklyGoalsHeaderComponent,
-    LongTermGoalsComponent, QuarterlyGoalsComponent
+    NavbarComponent, 
+    WeeklyGoalsHeaderComponent,
+    LongTermGoalsComponent, 
+    QuarterlyGoalsComponent
   ]
 })
 export class HomeComponent implements OnInit {

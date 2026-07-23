@@ -22,7 +22,6 @@ export class QuarterlyGoalsComponent implements OnInit {
 
   /** The current signed in user. */
   currentUser: Signal<User> = this.authStore.user;
-  // this.snackbar.open(editclick);
 
   // --------------- LOCAL UI STATE ----------------------
 
