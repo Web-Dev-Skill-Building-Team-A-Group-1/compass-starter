@@ -3,6 +3,8 @@ import { QuarterlyGoalsAnimations } from './quarterly-goals.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { QuarterlyGoalsHeaderComponent } from './quarterly-goals-header/quarterly-goals-header.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-quarterly-goals',
@@ -11,7 +13,7 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: QuarterlyGoalsAnimations,
   standalone: true,
-  imports: [
+  imports: [QuarterlyGoalsHeaderComponent
   ],
 })
 export class QuarterlyGoalsComponent implements OnInit {
@@ -20,6 +22,7 @@ export class QuarterlyGoalsComponent implements OnInit {
 
   /** The current signed in user. */
   currentUser: Signal<User> = this.authStore.user;
+  // this.snackbar.open(editclick);
 
   // --------------- LOCAL UI STATE ----------------------
 
@@ -29,11 +32,18 @@ export class QuarterlyGoalsComponent implements OnInit {
   // --------------- COMPUTED DATA -----------------------
 
   // --------------- EVENT HANDLING ----------------------
-
+  openModal(editClicked: boolean) {
+    this.snackBar.open('Edit Goals', '', {
+      duration: 3000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+    });
+  }
   // --------------- OTHER -------------------------------
 
   constructor(
     private injector: Injector,
+    private snackBar: MatSnackBar,
     @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
   ) { }
 
