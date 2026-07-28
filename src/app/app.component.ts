@@ -5,7 +5,6 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
