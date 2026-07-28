@@ -15,7 +15,10 @@ import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.compon
   standalone: true,
   animations: HomeAnimations,
   imports: [
-    NavbarComponent, WeeklyGoalsHeaderComponent, LongTermGoalsComponent, WeeklyGoalsHeaderComponent
+    NavbarComponent,
+    WeeklyGoalsHeaderComponent,
+    LongTermGoalsComponent,
+    WeeklyGoalsHeaderComponent
   ]
 })
 export class HomeComponent implements OnInit {
