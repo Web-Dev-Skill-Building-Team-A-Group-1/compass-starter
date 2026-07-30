@@ -32,6 +32,10 @@ app-root {
   margin: 0;
 }
 
+body {
+  font-family: 'Oxygen', sans-serif;
+}
+
 mat-checkbox {
   --mdc-checkbox-selected-focus-icon-color: #{$primary};
   --mdc-checkbox-selected-hover-icon-color: #{$primary};
@@ -50,3 +54,4 @@ mat-checkbox {
 
   --mat-checkbox-label-text-color: white;
 }
+

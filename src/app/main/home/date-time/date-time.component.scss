@@ -1,7 +1,52 @@
-:host {
-  display: block;
-  .date-time-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+
+
+.date-time-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #2DBDB1;
+  text-align: center;
+  background-color: #E1FBF9;
+  padding: 8px 12px 0px 12px;
+  //top right bottom left
+  width: fit-content;
+
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    .hour-minutes {
+      font-size: 56px;
+    }
+
+    .period-seconds-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      height: 56px;
+      width: 32px;
+      margin-bottom: 10px;
+
+      .period {
+        font-size: 15px;
+      }
+
+      .seconds {
+        color: #2DBDB1;
+        font-size: 15px;
+        letter-spacing: 3px;
+        
+      }
+    }
+  }
+  .date {
+    color: #4B5853;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: right;
+    
   }
 }
