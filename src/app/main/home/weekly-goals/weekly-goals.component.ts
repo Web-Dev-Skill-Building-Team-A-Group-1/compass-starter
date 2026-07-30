@@ -3,6 +3,10 @@ import { WeeklyGoalsAnimations } from './weekly-goals.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { WeeklyGoalsItemComponent } from './weekly-goals-item/weekly-goals-item.component';
+import { Timestamp } from '@angular/fire/firestore';
+import { WeeklyGoalData } from '../home.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { WeeklyGoalsModalComponent } from './weekly-goals-modal/weekly-goals-modal.component';
 import { WeeklyGoalsHeaderComponent } from './weekly-goals-header/weekly-goals-header.component';
@@ -19,6 +23,7 @@ import { HashtagStore } from 'src/app/core/store/hashtag/hashtag.store';
   standalone: true,
   imports: [
     WeeklyGoalsHeaderComponent,
+    WeeklyGoalsItemComponent
   ],
 })
 export class WeeklyGoalsComponent implements OnInit {
@@ -30,17 +35,54 @@ export class WeeklyGoalsComponent implements OnInit {
 
   // --------------- INPUTS AND OUTPUTS ------------------
 
-  /** The current signed in user. */
-  currentUser: Signal<User> = this.authStore.user;
-
   // --------------- LOCAL UI STATE ----------------------
 
-  /** Loading icon. */
-  loading: WritableSignal<boolean> = signal(false);
+  sampleData: WeeklyGoalData = {
+    __id: 'wg1',
+    __userId: 'test-user',
+    __quarterlyGoalId: 'qg1',
+    __hashtagId: 'ht1',
+    text: 'Apply to Microsoft',
+    completed: false,
+    order: 1,
+    _createdAt: Timestamp.now(),
+    _updatedAt: Timestamp.now(),
+    _deleted: false,
+    hashtag: {
+      __id: 'ht1',
+      __userId: 'test-user',
+      name: 'apply-internships',
+      color: '#2DBDB1',
+      _createdAt: Timestamp.now(),
+      _updatedAt: Timestamp.now(),
+      _deleted: false,
+    },
+  };
 
+  
   // --------------- COMPUTED DATA -----------------------
 
+
   // --------------- EVENT HANDLING ----------------------
+  
+  completion = "incomplete";
+  checkGoal(newCheckState: boolean) {
+    if( newCheckState === true){
+        this.completion = "incomplete"
+    } else {
+        this.completion = "complete"
+    }
+    this.snackBar.open(
+      'Clicked on checkbox to change state to: ' + this.completion,
+      '',
+      {
+        duration: 3000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+      },
+    );
+  }
+
 
   /** Open the Weekly Goals modal, seeded with the current user's incomplete weekly goals, quarterly goals, and hashtags loaded from the database. */
   openGoalsModal() {
@@ -71,10 +113,7 @@ export class WeeklyGoalsComponent implements OnInit {
 
   // --------------- OTHER -------------------------------
 
-  constructor(
-    private injector: Injector,
-    @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
-  ) { }
+  constructor(private snackBar: MatSnackBar) {}
 
   // --------------- LOAD AND CLEANUP --------------------
 
