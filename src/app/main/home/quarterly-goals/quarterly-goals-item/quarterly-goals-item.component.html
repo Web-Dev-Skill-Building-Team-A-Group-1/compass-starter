@@ -1,3 +1,14 @@
-<div class="quarterly-goals-item-container">
-  quarterly-goals-item works!
-</div>
+@if (goal()) {
+  <div class="quarterly-goals-item-container">
+    <mat-checkbox class="check-box" (click)="checkGoal()"></mat-checkbox>
+    <div class="goal-details">
+      <div class="goal-title" [class.strike]="isChecked">{{ goal().text }}</div>
+      <div class="second-row">
+        <div class="goal-hashtag">#{{ goal().hashtag.name }}</div>
+        <div class="order">{{ goal().order }} / 3</div>
+      </div> 
+    </div>
+  </div>
+} @else {
+  <mat-spinner [diameter]="40" [strokeWidth]="4"></mat-spinner>
+}
