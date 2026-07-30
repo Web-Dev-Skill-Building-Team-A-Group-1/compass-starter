@@ -4,6 +4,7 @@ import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
 import { endOfWeek, startOfWeek } from '../../../../core/utils/time.utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   // --------------- OTHER -------------------------------
 
   constructor(
+    private snackBar: MatSnackBar,
     private injector: Injector,
     @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
   ) { }
