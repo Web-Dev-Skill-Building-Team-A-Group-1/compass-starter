@@ -10,45 +10,34 @@
     padding: 0px 10px 4px 0px;
     
       .strike {
-      text-decoration: line-through;
+        text-decoration: line-through;
       }
 
-    .goal-details{
+    .goal-details {
       display: flex;
       flex-direction: column;
       flex: 1;
       padding-top: 8px;
 
-      .goal-title{
+      .goal-title {
         font-size: 16.25px;
         color: #5A5A5A;
       }
 
-      .second-row{
+      .second-row {
         display: flex;
         flex-direction: row;
         gap: 150px;
         
-        .goal-hashtag{
+        .goal-hashtag {
           font-size: 15px;
           color: #2DBDB1;
         }
   
-        .order{
-          font-size: 15px;
-
-          
-  
+        .order {
+          font-size: 15px;  
         }
-      }
-
-
-      
-      
+      }  
     }
-
-    
-    
-    
   }
 }

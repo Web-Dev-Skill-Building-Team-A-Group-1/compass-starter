@@ -6,7 +6,6 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
 import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
 import { WeeklyGoalsHeaderComponent } from './weekly-goals/weekly-goals-header/weekly-goals-header.component';
 import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.component';
-// TODO: Replace weekly goals header component in this file with weekly goals component!
 import { QuarterlyGoalsComponent } from './quarterly-goals/quarterly-goals.component';
 @Component({
   selector: 'app-home',
