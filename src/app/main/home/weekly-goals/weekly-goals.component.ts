@@ -35,6 +35,9 @@ export class WeeklyGoalsComponent implements OnInit {
 
   // --------------- INPUTS AND OUTPUTS ------------------
 
+  /** The currently signed in user. */
+  currentUser: Signal<User> = this.authStore.user;
+
   // --------------- LOCAL UI STATE ----------------------
 
   sampleData: WeeklyGoalData = {
@@ -59,9 +62,10 @@ export class WeeklyGoalsComponent implements OnInit {
     },
   };
 
+  /** Loading icon. */
+  loading: WritableSignal<boolean> = signal(false);
   
   // --------------- COMPUTED DATA -----------------------
-
 
   // --------------- EVENT HANDLING ----------------------
   
