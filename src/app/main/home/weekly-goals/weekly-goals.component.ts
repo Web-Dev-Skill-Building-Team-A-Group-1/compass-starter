@@ -1,18 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy, input, output, inject, WritableSignal, Signal, signal, computed, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, Signal, computed, inject } from '@angular/core';
 import { WeeklyGoalsAnimations } from './weekly-goals.animations';
+import { WeeklyGoalsHeaderComponent } from './weekly-goals-header/weekly-goals-header.component';
+import { WeeklyGoalsItemComponent } from './weekly-goals-item/weekly-goals-item.component';
+import { WeeklyGoalsModalComponent } from './weekly-goals-modal/weekly-goals-modal.component';
+import { WeeklyGoalData } from '../home.model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Timestamp } from '@angular/fire/firestore';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
-import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
-import { WeeklyGoalsItemComponent } from './weekly-goals-item/weekly-goals-item.component';
-import { Timestamp } from '@angular/fire/firestore';
-import { WeeklyGoalData } from '../home.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-import { WeeklyGoalsModalComponent } from './weekly-goals-modal/weekly-goals-modal.component';
-import { WeeklyGoalsHeaderComponent } from './weekly-goals-header/weekly-goals-header.component';
+import { Hashtag } from 'src/app/core/store/hashtag/hashtag.model';
+import { HashtagStore, LoadHashtag } from 'src/app/core/store/hashtag/hashtag.store';
+import { QuarterlyGoal } from 'src/app/core/store/quarterly-goal/quarterly-goal.model';
+import { QuarterlyGoalStore, LoadQuarterlyGoal } from 'src/app/core/store/quarterly-goal/quarterly-goal.store';
 import { WeeklyGoalStore } from 'src/app/core/store/weekly-goal/weekly-goal.store';
-import { QuarterlyGoalStore } from 'src/app/core/store/quarterly-goal/quarterly-goal.store';
-import { HashtagStore } from 'src/app/core/store/hashtag/hashtag.store';
+import { getStartWeekDate } from 'src/app/core/utils/time.utils';
+import { BATCH_WRITE_SERVICE, BatchWriteService } from 'src/app/core/store/batch-write.service';
 
 @Component({
   selector: 'app-weekly-goals',
@@ -22,104 +25,231 @@ import { HashtagStore } from 'src/app/core/store/hashtag/hashtag.store';
   animations: WeeklyGoalsAnimations,
   standalone: true,
   imports: [
+    /** Components */
     WeeklyGoalsHeaderComponent,
-    WeeklyGoalsItemComponent
+    WeeklyGoalsItemComponent,
+    WeeklyGoalsModalComponent,
   ],
 })
 export class WeeklyGoalsComponent implements OnInit {
   readonly authStore = inject(AuthStore);
-  readonly dialog = inject(MatDialog);
+  readonly hashtagStore = inject(HashtagStore);
   readonly weeklyGoalStore = inject(WeeklyGoalStore);
   readonly quarterlyGoalStore = inject(QuarterlyGoalStore);
-  readonly hashtagStore = inject(HashtagStore);
-
   // --------------- INPUTS AND OUTPUTS ------------------
+
+  /** The current signed in user. */
+  currentUser: Signal<User> = this.authStore.user;
 
   // --------------- LOCAL UI STATE ----------------------
 
-  sampleData: WeeklyGoalData = {
-    __id: 'wg1',
-    __userId: 'test-user',
-    __quarterlyGoalId: 'qg1',
-    __hashtagId: 'ht1',
-    text: 'Apply to Microsoft',
-    completed: false,
-    order: 1,
-    _createdAt: Timestamp.now(),
-    _updatedAt: Timestamp.now(),
-    _deleted: false,
-    hashtag: {
-      __id: 'ht1',
-      __userId: 'test-user',
-      name: 'apply-internships',
-      color: '#2DBDB1',
-      _createdAt: Timestamp.now(),
-      _updatedAt: Timestamp.now(),
-      _deleted: false,
-    },
-  };
+  /** For storing the dialogRef in the opened modal. */
+  dialogRef: MatDialogRef<any>;
 
-  
   // --------------- COMPUTED DATA -----------------------
 
+  /** Data for completed weekly goals. */
+  completeWeeklyGoals: Signal<WeeklyGoalData[]> = computed(() => {
+    const startOfWeek = getStartWeekDate();
+    const completeGoals = this.weeklyGoalStore.selectEntities(
+      [
+        ['__userId', '==', this.currentUser()?.__id],
+        ['completed', '==', true],
+        ['endDate', '>=', Timestamp.fromDate(startOfWeek)],
+      ],
+      { orderBy: 'order' },
+    );
+
+    return completeGoals.map((goal) => {
+      // get the quarter goal associated with that weekly goal to make updates easier
+      const quarterGoal = this.quarterlyGoalStore.selectEntity(
+        goal.__quarterlyGoalId,
+      );
+      return Object.assign({}, goal, {
+        hashtag: this.hashtagStore.selectEntity(quarterGoal?.__hashtagId),
+        quarterGoal: quarterGoal,
+      });
+    });
+  });
+
+  /** Data for incomplete weekly goals. */
+  incompleteWeeklyGoals: Signal<WeeklyGoalData[]> = computed(() => {
+    const incompleteGoals = this.weeklyGoalStore.selectEntities(
+      [
+        ['__userId', '==', this.currentUser()?.__id],
+        ['completed', '==', false],
+      ],
+      { orderBy: 'order' },
+    );
+
+    return incompleteGoals.map((goal) => {
+      // get the quarter goal associated with that weekly goal to make updates easier
+      const quarterGoal = this.quarterlyGoalStore.selectEntity(
+        goal.__quarterlyGoalId,
+      );
+      return Object.assign({}, goal, {
+        hashtag: this.hashtagStore.selectEntity(quarterGoal?.__hashtagId),
+        quarterGoal: quarterGoal,
+      });
+    });
+  });
+
+  /** All quarterly goals, needed for weekly goals modal */
+  quarterlyGoals: Signal<(Partial<QuarterlyGoal> & { hashtag?: Hashtag })[]> = computed(() => {
+    const allGoals = this.quarterlyGoalStore.selectEntities(
+      [['__userId', '==', this.currentUser()?.__id]],
+      { orderBy: 'order' },
+    );
+
+    return allGoals.map((goal) => {
+      return Object.assign({}, goal, {
+        hashtag: this.hashtagStore.selectEntity(goal.__hashtagId),
+      });
+    });
+  });
 
   // --------------- EVENT HANDLING ----------------------
-  
-  completion = "incomplete";
-  checkGoal(newCheckState: boolean) {
-    if( newCheckState === true){
-        this.completion = "incomplete"
-    } else {
-        this.completion = "complete"
-    }
-    this.snackBar.open(
-      'Clicked on checkbox to change state to: ' + this.completion,
-      '',
-      {
-        duration: 3000,
-        verticalPosition: 'bottom',
-        horizontalPosition: 'center',
-      },
-    );
-  }
 
-
-  /** Open the Weekly Goals modal, seeded with the current user's incomplete weekly goals, quarterly goals, and hashtags loaded from the database. */
-  openGoalsModal() {
-    const userId = this.currentUser().__id;
-    const incompleteGoals = this.weeklyGoalStore.selectEntities(
-      [['__userId', '==', userId], ['completed', '==', false]],
-      {},
-    );
-    const goalDatas = this.quarterlyGoalStore.selectEntities(
-      [['__userId', '==', userId]],
-      {},
-    );
-    const hashtags = this.hashtagStore.selectEntities(
-      [['__userId', '==', userId]],
-      {},
-    );
-
-    this.dialog.open(WeeklyGoalsModalComponent, {
-      width: '600px',
+  /** Update weekly goals. */
+  openModal(editClicked: boolean) {
+    this.dialogRef = this.dialog.open(WeeklyGoalsModalComponent, {
+      height: '90%',
+      width: '60%',
+      position: { bottom: '0' },
+      panelClass: 'goal-modal-panel',
       data: {
-        goalDatas,
-        incompleteGoals,
-        hashtags,
-        openWithEmptyRow: false,
+        goalDatas: this.quarterlyGoals(),
+        incompleteGoals: this.incompleteWeeklyGoals(),
+        updateWeeklyGoals: async (weeklyGoalsFormArray) => {
+          try {
+            this.batch.batchWrite(
+              async (batchConfig) => {
+                await Promise.all(
+                  weeklyGoalsFormArray.controls.map(async (control, i) => {
+                    // if this is a new quarter goal
+                    if (!control.value.__weeklyGoalId) {
+                      await this.addNewGoal(control.value, i, batchConfig);
+                      // if it's a goal that's getting deleted
+                    } else if (control.value._deleted) {
+                      await this.removeGoal(control.value, batchConfig);
+                      // if it's a goal that's getting updated
+                    } else {
+                      await this.updateGoal(control.value, i, batchConfig);
+                    }
+                  }),
+                );
+              },
+              {
+                snackBarConfig: {
+                  successMessage: 'Goals successfully updated',
+                  failureMessage: 'Goal not added successfully',
+                  undoOnAction: true,
+                  config: { duration: 3000 },
+                },
+              },
+            );
+            this.dialogRef.close();
+          } catch (e) {
+            console.error(e);
+          }
+        },
       },
     });
   }
 
+  /** Update weekly goal. */
+  async checkGoal(goal: WeeklyGoalData) {
+    try {
+      await this.weeklyGoalStore.update(
+        goal.__id,
+        {
+          completed: !goal.completed,
+          ...(!goal.completed ? { endDate: Timestamp.now() } : {}),
+        },
+        {
+          optimistic: true,
+          snackBarConfig: {
+            successMessage:
+              'Marked goal as ' + (goal.completed ? 'incomplete' : 'complete'),
+            failureMessage: 'Failed to update goal',
+            undoOnAction: true,
+            config: {
+              duration: 3000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'center',
+            },
+          },
+        },
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  /** Adds a goal based off form values */
+  async addNewGoal(controlValue, i, batchConfig) {
+    await this.weeklyGoalStore.add(
+      Object.assign(
+        {},
+        {
+          __userId: this.currentUser().__id,
+          __quarterlyGoalId: controlValue.__quarterlyGoalId,
+          text: controlValue.text,
+          completed: false,
+          order: i + 1,
+          _deleted: controlValue._deleted,
+        },
+      ),
+      { batchConfig },
+    );
+  }
+
+  /** Removes some goal based off form values */
+  async removeGoal(controlValue, batchConfig) {
+    await this.weeklyGoalStore.remove(controlValue.__weeklyGoalId, {
+      batchConfig,
+    });
+  }
+
+  /** Updates some goal based off form values */
+  async updateGoal(controlValue, i, batchConfig) {
+    await this.weeklyGoalStore.update(
+      controlValue.__weeklyGoalId,
+      Object.assign({},
+        {
+          __quarterlyGoalId: controlValue.__quarterlyGoalId,
+          text: controlValue.text,
+          order: i + 1,
+          _deleted: controlValue._deleted,
+        },
+      ),
+      { batchConfig },
+    );
+  }
+
   // --------------- OTHER -------------------------------
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
+  ) {}
 
   // --------------- LOAD AND CLEANUP --------------------
 
-  ngOnInit(): void {
-    this.weeklyGoalStore.load([], {}, undefined, { loading: this.loading });
-    this.quarterlyGoalStore.load([], {});
-    this.hashtagStore.load([], {});
+  ngOnInit() {
+    // loading uncompleted goals
+    this.weeklyGoalStore.load([['__userId', '==', this.currentUser()?.__id], ['completed', '==', false]], { orderBy: 'order' }, (wg) => [
+      LoadQuarterlyGoal.create(this.quarterlyGoalStore, [['__id', '==', wg.__quarterlyGoalId]], {}, (qg) => [
+        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {})
+      ]),
+    ]);
+
+    // loading completed goals
+    this.weeklyGoalStore.load([['__userId', '==', this.currentUser()?.__id], ['endDate', '>=', Timestamp.fromDate(getStartWeekDate())]], { orderBy: 'order' }, (wg) => [
+      LoadQuarterlyGoal.create(this.quarterlyGoalStore, [['__id', '==', wg.__quarterlyGoalId]], {}, (qg) => [
+        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {})
+      ]),
+    ]);
   }
 }

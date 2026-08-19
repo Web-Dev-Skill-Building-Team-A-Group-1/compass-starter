@@ -43,18 +43,26 @@ export class WeeklyGoalsModalComponent implements OnInit {
 
   // --------------- LOCAL UI STATE ----------------------
 
-  /** Rejects empty/whitespace-only text so "   " doesn't pass as a valid goal name. */
-  private static readonly nonWhitespace: ValidatorFn = Validators.pattern(/\S/);
-
-  /** FormControls for editing past goals and adding a new one. Rows are populated in the constructor. */
+  /** FormControls for editing past goals and adding a new one */
   weeklyGoalsForm = this.fb.group({
-    allGoals: this.fb.array([]),
+    allGoals: this.fb.array([
+      this.fb.group({
+        text: ['', Validators.required],
+        originalText: [''],
+        originalOrder: [1],
+        __weeklyGoalId: [''],
+        __quarterlyGoalId: [''], // changed from hashtagId
+      }),
+    ]),
   });
 
   /** Getter for the form array with a type that allows use of controls. */
   get allGoals() {
     return this.weeklyGoalsForm.get('allGoals') as FormArray;
   }
+
+  /** Editable weekly goals form. */
+  mutableWeekGoalsForm: WeeklyGoal[];
 
   // --------------- COMPUTED DATA -----------------------
 
@@ -82,16 +90,10 @@ export class WeeklyGoalsModalComponent implements OnInit {
     return this.allGoals.controls.filter(
       (goal) =>
         goal.dirty && // Check if the goal has been edited
-        (goal.value.text !== goal.value.originalText || // Compare current text with original text
-          goal.value.__hashtagId !== goal.value.originalHashtagId) && // ...or compare current hashtag with original hashtag
+        goal.value.text !== goal.value.originalText && // Compare current text with original text
         !goal.value._new && // Ensure the goal is not newly added
         !goal.value._deleted, // Ensure the goal is not marked for deletion
     ).length;
-  }
-
-  /** Look up a hashtag's color by id, for coloring the select trigger to match the chosen hashtag. */
-  hashtagColor(hashtagId: string): string {
-    return this.data.hashtags.find((hashtag) => hashtag.__id === hashtagId)?.color ?? '';
   }
 
   /**
@@ -104,29 +106,26 @@ export class WeeklyGoalsModalComponent implements OnInit {
   }
 
   // --------------- EVENT HANDLING ----------------------
-
-  /** Add a goal to the form. Pass an existing WeeklyGoal to seed a row, or null for a blank one. */
-  addGoalToForm(goal: WeeklyGoal) {
+  /** Add a goal to the form. */
+  addGoalToForm(goal) {
     if (goal) {
       this.allGoals.push(
         this.fb.group({
-          text: [goal.text, [Validators.required, WeeklyGoalsModalComponent.nonWhitespace]],
+          text: [goal.text, Validators.required],
           originalText: [goal.text],
-          originalOrder: [goal.order],
-          originalHashtagId: [goal.__hashtagId],
+          originalOrder: [goal.originalOrder],
           originalQuarterlyGoalId: [goal.__quarterlyGoalId],
-          __weeklyGoalId: [goal.__id],
-          __hashtagId: [goal.__hashtagId, Validators.required],
-          __quarterlyGoalId: [goal.__quarterlyGoalId],
-          _deleted: [goal._deleted ?? false],
+          __weeklyGoalId: [goal.__weeklyGoalId],
+          __quarterlyGoalId: [goal.__quarterlyGoalId, Validators.required],
+          _deleted: [false],
           _new: [false],
         }),
       );
     } else {
       this.allGoals.push(
         this.fb.group({
-          text: ['', [Validators.required, WeeklyGoalsModalComponent.nonWhitespace]],
-          __hashtagId: ['', Validators.required],
+          text: ['', Validators.required],
+          __quarterlyGoalId: ['', Validators.required],
           _deleted: [false],
           _new: [true],
         }),
@@ -143,6 +142,36 @@ export class WeeklyGoalsModalComponent implements OnInit {
     );
   }
 
+  /**
+   * Moves an item in a FormArray to another position.
+   * @param formArray FormArray instance in which to move the item.
+   * @param fromIndex Starting index of the item.
+   * @param toIndex Index to which he item should be moved.
+   * https://stackoverflow.com/questions/56149461/draggable-formgroups-in-formarray-reactive-forms
+   */
+  moveItemInFormArray(
+    formArray: FormArray,
+    fromIndex: number,
+    toIndex: number,
+  ) {
+    const dir = toIndex > fromIndex ? 1 : -1;
+
+    const from = fromIndex;
+    const to = toIndex;
+
+    const temp = formArray.at(from);
+    for (let i = from; i * dir < to * dir; i = i + dir) {
+      const current = formArray.at(i + dir);
+      formArray.setControl(i, current);
+    }
+    formArray.setControl(to, temp);
+  }
+
+  /** Save any updates for any of the goals. */
+  async saveGoals() {
+    await this.data.updateWeeklyGoals(this.allGoals);
+  }
+
   fullDelete(e, i) {
     if (
       e.target.checked &&
@@ -152,34 +181,39 @@ export class WeeklyGoalsModalComponent implements OnInit {
     }
   }
 
-  async saveGoals() {
-    // Logic will run callback in next step
-  }
-
   // --------------- OTHER -------------------------------
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      goalDatas: Partial<QuarterlyGoal>[];
+      goalDatas: (Partial<QuarterlyGoal> & { hashtag?: Hashtag })[];
       incompleteGoals: WeeklyGoal[];
-      hashtags: Hashtag[];
-      openWithEmptyRow: boolean;
+      updateWeeklyGoals: (weeklyGoalsFormArray: FormArray) => void;
     },
     public dialogRef: MatDialogRef<WeeklyGoalsModalComponent>,
     private fb: FormBuilder,
-    @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
   ) {
-    // Initialize allGoals with the set of incompleteGoals
-    this.data.incompleteGoals.forEach((goal) => this.addGoalToForm(goal));
-
-    if (this.data.incompleteGoals.length === 0 || this.data.openWithEmptyRow) {
+    // Initialize the quarterGoalsForm with the set of incompleteGoals
+    this.allGoals.clear();
+    if (this.data.incompleteGoals.length == 0) {
       this.addGoalToForm(null);
+    } else {
+      this.data.incompleteGoals.forEach((goal) => {
+        this.addGoalToForm({
+          text: goal.text,
+          __quarterlyGoalId: goal.__quarterlyGoalId,
+          originalText: goal.text,
+          originalOrder: goal.order,
+          originalQuarterlyGoalId: goal.__quarterlyGoalId,
+          __weeklyGoalId: goal.__id,
+          _deleted: goal._deleted,
+          _new: false,
+        });
+      });
     }
   }
 
   // --------------- LOAD AND CLEANUP --------------------
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 }
-

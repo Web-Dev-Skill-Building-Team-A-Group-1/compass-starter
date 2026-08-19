@@ -59,5 +59,3 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 }
-
-
