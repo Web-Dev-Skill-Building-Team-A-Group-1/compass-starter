@@ -2,13 +2,13 @@
 <div class="weekly-goals-item-container">
   <mat-checkbox
     class="check-box"
+    [checked]="isChecked()"
     (click)="checkGoal()"
   ></mat-checkbox>
   <div class="goal-details" >
-    <div class="goal-title" [class.strike]="isChecked">{{ goal().text }}</div>
+    <div class="goal-title" [class.strike]="isChecked()">{{ goal().text }}</div>
     <div class="goal-hashtag" style="color: {{goal().hashtag?.color}};">#{{ goal().hashtag?.name }}</div>
   </div>
 </div>
 }
-
 
