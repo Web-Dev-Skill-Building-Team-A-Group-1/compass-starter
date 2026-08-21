@@ -14,7 +14,7 @@ import { LongTermGoalsHeaderComponent } from './main/home/long-term-goals/long-t
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, DateTimeComponentGreetingComponent, LongTermGoalsHeaderComponent],
+  imports: [NavbarComponent, RouterOutlet, DateTimeComponent, GreetingComponent, LongTermGoalsHeaderComponent],
 })
 export class AppComponent implements OnInit {
   readonly authStore = inject(AuthStore);
