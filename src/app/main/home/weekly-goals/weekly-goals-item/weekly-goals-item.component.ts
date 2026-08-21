@@ -22,20 +22,17 @@ export class WeeklyGoalsItemComponent implements OnInit {
   // --------------- INPUTS AND OUTPUTS ------------------
   
   goal: Signal<WeeklyGoalData> = input<WeeklyGoalData>();
-  check: OutputEmitterRef<boolean> = output<boolean>();
-
+  check: OutputEmitterRef<WeeklyGoalData> = output<WeeklyGoalData>();
   
   // --------------- LOCAL UI STATE ----------------------
-
-  isChecked: boolean;
-
+  
   // --------------- COMPUTED DATA -----------------------
 
+  isChecked: Signal<boolean> = computed(() => this.goal()?.completed ?? false);
   
   // --------------- EVENT HANDLING ----------------------
   checkGoal() {
-    this.check.emit(this.isChecked);
-    this.isChecked = !this.isChecked;
+    this.check.emit(this.goal());
   }
 
   // --------------- OTHER -------------------------------
@@ -45,3 +42,4 @@ export class WeeklyGoalsItemComponent implements OnInit {
   // --------------- LOAD AND CLEANUP --------------------
   ngOnInit(): void {}
 }
+
