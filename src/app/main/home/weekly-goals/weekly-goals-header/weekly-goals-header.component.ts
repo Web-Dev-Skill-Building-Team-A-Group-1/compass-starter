@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, output, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
 import { WeeklyGoalsHeaderAnimations } from './weekly-goals-header.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
@@ -24,6 +24,9 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   /** The current signed in user. */
   currentUser: Signal<User> = this.authStore.user;
 
+  /** Emitted when the edit (pencil) icon is clicked, so a parent can open the Weekly Goals modal. */
+  editClicked = output<void>();
+
   // --------------- LOCAL UI STATE ----------------------
 
   /** Loading icon. */
@@ -41,11 +44,7 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   * Function to edit goals when user clicks on pencil icon
   */
   editGoals() {
-    this.snackBar.open('Clicked on icon', 'Close', {
-      duration: 3000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-    });
+    this.editClicked.emit();
   }
   // --------------- OTHER -------------------------------
 
@@ -60,3 +59,5 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 }
+
+

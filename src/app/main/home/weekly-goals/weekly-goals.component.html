@@ -1,3 +1,4 @@
 <div class="weekly-goals-container">
-  weekly-goals works!
+  <app-weekly-goals-header (editClicked)="openGoalsModal()"></app-weekly-goals-header>
+  <app-weekly-goals-item [goal]="this.sampleData" (check)="checkGoal($event)" />
 </div>

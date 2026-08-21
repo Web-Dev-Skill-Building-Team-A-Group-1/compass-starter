@@ -4,17 +4,13 @@ import { AuthStore } from './core/store/auth/auth.store';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DateTimeComponent } from './main/home/date-time/date-time.component';
-import { GreetingComponent } from './main/home/greeting/greeting.component';
-
-import { LongTermGoalsHeaderComponent } from './main/home/long-term-goals/long-term-goals-header/long-term-goals-header.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, DateTimeComponent, GreetingComponent, LongTermGoalsHeaderComponent],
+  imports: [NavbarComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit {
   readonly authStore = inject(AuthStore);
@@ -22,20 +18,17 @@ export class AppComponent implements OnInit {
 
   constructor() {
     this.router.events
-    .pipe(
-      filter(e => e instanceof NavigationEnd),
-      takeUntilDestroyed()
-    )
-    .subscribe((e: NavigationEnd) => {
-      window.parent.postMessage({ type: 'preview-route-changed', route: e.urlAfterRedirects }, '*');
-    });
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe((e: NavigationEnd) => {
+        window.parent.postMessage({ type: 'preview-route-changed', route: e.urlAfterRedirects }, '*');
+      });
   }
 
   async ngOnInit() {
     window.parent.postMessage({ type: 'angular-ready' }, '*');
-
-    // Automatically login to avoid landing page. Feel free to change.
-    await this.authStore.login('google.com', { doNotRoute: true });
     this.authStore.loadAuth();
   }
 }

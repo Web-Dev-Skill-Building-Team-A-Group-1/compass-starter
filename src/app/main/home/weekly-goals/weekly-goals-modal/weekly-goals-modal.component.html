@@ -1,3 +1,63 @@
 <div class="weekly-goals-modal-container">
-  weekly-goals-modal works!
+  <header class="header">
+    <div class="top-row">
+      <h1>Weekly Goals</h1>
+      <button mat-icon-button class="close-button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <time class="date-range">{{ startOfWeek() }} - {{ endOfWeek() }}</time>
+  </header>
+  <form [formGroup]="weeklyGoalsForm" (ngSubmit)="saveGoals()">
+    <section class="goal-list">
+      <div class="goal-container" cdkDropList (cdkDropListDropped)="drop($event)" formArrayName="allGoals">
+        <div
+          class="goal-item"
+          *ngFor="let goal of allGoals.controls; let i = index"
+          [formGroupName]="i"
+          cdkDrag
+        >
+          <div class="goals-box">
+            <mat-icon cdkDragHandle>drag_indicator</mat-icon>
+            <fieldset class="field-wrapper" [disabled]="goal.get('_deleted').value">
+              <mat-form-field class="goal-input">
+                <input matInput placeholder="Enter your goal..." formControlName="text" />
+              </mat-form-field>
+              <mat-form-field class="goal-dropdown" [style.--hashtag-color]="hashtagColor(goal.get('__hashtagId').value)">
+                <mat-select
+                  placeholder="Select a hashtag"
+                  formControlName="__hashtagId"
+                  panelClass="hashtag-select-panel"
+                >
+                  <mat-option *ngFor="let hashtag of data.hashtags" [value]="hashtag.__id" [style.color]="hashtag.color">
+                    #{{ hashtag.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+            <input
+              id="delete-checkbox-{{ i }}"
+              type="checkbox"
+              formControlName="_deleted"
+              (change)="fullDelete($event, i)"
+            />
+            <label for="delete-checkbox-{{ i }}" class="trash-label">
+              <mat-icon class="delete" fontIcon="delete"></mat-icon>
+              <mat-icon class="restore" fontIcon="restore_from_trash"></mat-icon>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="add-goal-button" (click)="addGoalToForm(null)">
+      <div class="add-goal">+ Add a weekly goal</div>
+    </div>
+    <div class="added-goals">
+      <div class="tracking-counts">
+        <p>Pending Changes</p>
+        <span>Adding {{ addedGoalsCount }}, Editing {{ editedGoalsCount }}, Deleting {{ deletedGoalsCount }}</span>
+      </div>
+      <button class="save-button" type="submit" [disabled]="weeklyGoalsForm.invalid">Save</button>
+    </div>
+  </form>
 </div>

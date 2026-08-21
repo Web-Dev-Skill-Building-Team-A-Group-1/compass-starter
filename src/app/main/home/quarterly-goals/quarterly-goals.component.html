@@ -1,3 +1,4 @@
 <div class="quarterly-goals-container">
-  quarterly-goals works!
+  <app-quarterly-goals-header (editClicked)="openModal($event)"/>
+  <app-quarterly-goals-item [goal]="this.sampleData" (check)="checkGoal($event)" />
 </div>
