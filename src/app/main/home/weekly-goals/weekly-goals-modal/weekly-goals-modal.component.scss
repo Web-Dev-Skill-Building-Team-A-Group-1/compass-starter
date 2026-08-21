@@ -123,7 +123,7 @@
   .add-goal-button {
     cursor: pointer;
     display: flex;
-    margin-left: 26px;
+    margin-left: 40px;
     margin-bottom: 20px;
 
     .add-goal {
@@ -138,6 +138,7 @@
     justify-content: flex-end;
     align-items: flex-end;
     padding-right: 5%;
+    margin-bottom: 20px;
     gap: 14px;
 
     .tracking-counts {
@@ -161,10 +162,11 @@
       color: #ffffff;
       border: none;
       border-radius: 10px;
-      padding: 3% 6%;
+      padding: 8px 16px;
       cursor: pointer;
       font-size: 16px;
       font-weight: bold;
+      font-family: inherit;
       height: 42px;
       width: 111px;
       margin-right: 4px;
@@ -194,3 +196,4 @@
 ::ng-deep .hashtag-select-panel {
   --mat-option-selected-state-label-text-color: #4b5853;
 }
+
