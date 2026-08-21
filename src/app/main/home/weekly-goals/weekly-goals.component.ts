@@ -38,7 +38,7 @@ export class WeeklyGoalsComponent implements OnInit {
   readonly quarterlyGoalStore = inject(QuarterlyGoalStore);
   // --------------- INPUTS AND OUTPUTS ------------------
 
-  /** The current signed in user. */
+  /** The currently signed in user. */
   currentUser: Signal<User> = this.authStore.user;
 
   // --------------- LOCAL UI STATE ----------------------

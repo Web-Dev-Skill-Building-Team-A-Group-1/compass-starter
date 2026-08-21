@@ -1,7 +1,134 @@
-:host {
-  display: block;
-  .long-term-goals-modal-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+
+
+
+
+.long-term-goals-modal-container {
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    padding: 20px 0 0 28px;
+    
+    .top-row{
+    display: flex;
+    flex-direction: row;
+
+      h1 {
+        margin: 0;
+        font-size: 30px;
+        
+      }
+      .close-button {
+        margin-left: auto;
+        margin-right: 12px;
+        transform: scale(1.4);
+      }
+    
+    }
+    h2 {
+      margin: 0;
+      font-size: 25px;
+      font-weight: 700;
+    }
   }
+  
+
+
+  .goal-list{
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+
+    .one-year-goal-container{
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+      
+
+      h3 {
+        margin-bottom: 0;
+        padding-left: 2px;
+        font-size: 25px;
+        
+      }
+      
+      .one-year-field-wrapper {
+        border: none;
+        border-radius: 8px;
+        flex: 1;
+        display: flex;
+
+
+        .one-year-goal-input {
+          width: 100%;
+        }
+        
+      }
+    
+    }
+    
+    .five-year-goal-container{
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+
+      h3 {
+        padding-left: 2px;
+        margin-bottom: 0;
+        font-size: 25px;
+        font-weight: 400;
+      }
+      
+      .five-year-field-wrapper {
+        border: none;
+        border-radius: 8px;
+        flex: 1;
+        display: flex;
+
+        .five-year-goal-input {
+          width: 100%;
+        }
+        
+      }
+    }
+    
+    
+  }
+  .bottom-row{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 3%;
+    padding-bottom: 3%;
+    gap: 14px;
+    
+    .save-button {
+      background: #2dbdb1;
+      font-family: 'Oxygen';
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      height: 42px;
+      width: 111px;
+      margin-right: 4px;
+
+      &:hover {
+        background: #1f9e91;
+      }
+
+      &[disabled] {
+        background-color: lightgray;
+        cursor: not-allowed;
+      }
+    }
+    
+  }
+  
+
 }
+
+

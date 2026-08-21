@@ -1,3 +1,58 @@
 <div class="long-term-goals-modal-container">
-  long-term-goals-modal works!
+  <header class = "header">
+    <div class = "top-row">
+      <h1>Long-term Goals</h1>
+      <button 
+        mat-icon-button 
+        class="close-button" 
+        type="button"
+        mat-dialog-close
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <h2>Plan Your Future</h2>
+  </header>
+  <form 
+    [formGroup]="longTermGoalsForm"
+    (ngSubmit)="saveGoals()"
+  >
+    <section class = "goal-list">
+        <div class="one-year-goal-container">
+            <h3>1 year</h3>
+            <div class="one-year-field-wrapper">
+              <mat-form-field class="one-year-goal-input">
+                <input 
+                  matInput 
+                  placeholder="Enter your goal..." 
+                  formControlName="oneYear" 
+                />
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="five-year-goal-container">
+            <h3>5 year</h3>
+          
+            <div class="five-year-field-wrapper">
+              <mat-form-field class="five-year-goal-input">
+                <input 
+                  matInput 
+                  placeholder="Enter your goal..." 
+                  formControlName="fiveYear" 
+                />
+              </mat-form-field>
+            </div>
+        </div>
+    </section>
+    <div class="bottom-row">
+      <button 
+        class="save-button" 
+        type="submit"
+        [disabled]="longTermGoalsForm.invalid || loading()"
+      >
+        Save
+      </button>
+    </div>
+  </form>
 </div>
+  
