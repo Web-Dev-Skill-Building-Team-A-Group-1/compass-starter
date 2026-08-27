@@ -14,6 +14,14 @@ export interface User {
     [index: string]: any;
   };
   onboardingState: OnboardingState;
+  accessState?: AccessState;
+}
+
+export enum AccessState {
+  NONE = 'none',
+  PENDING = 'pending',
+  ALLOWED = 'allowed',
+  ADMIN = 'admin',
 }
 
 export enum OnboardingState {

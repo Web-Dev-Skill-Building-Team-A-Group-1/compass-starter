@@ -1,7 +1,269 @@
 :host {
-  display: block;
-  .onboard-quarterly-goals-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: 'Oxygen', sans-serif;
+}
+
+.onboard-quarterly-goals-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.goals-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 40px 48px;
+  width: 100%;
+  max-width: 680px;
+  box-sizing: border-box;
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  .card-title {
+    color: #2dbdb1;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    line-height: 1.25;
+    font-family: 'Oxygen', sans-serif;
+  }
+
+  .card-subtitle {
+    color: #4B5853;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+    font-family: 'Oxygen', sans-serif;
+  }
+}
+
+.goals-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 160px;
+}
+
+.goal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  background: #ffffff;
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+
+  .drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    user-select: none;
+    color: #2dbdb1;
+    padding: 4px;
+    border-radius: 4px;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    .dots-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .goal-input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hashtag-input-wrapper {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    flex-shrink: 0;
+    position: relative;
+
+    .hashtag-prefix {
+      font-size: 16px;
+      font-weight: 600;
+      margin-right: 2px;
+      user-select: none;
+      font-family: 'Oxygen', sans-serif;
+    }
+  }
+}
+
+/* Custom minimal underline styling for MatFormFields */
+::ng-deep .clean-field {
+  width: 100%;
+  --mdc-filled-text-field-container-color: transparent !important;
+  --mat-form-field-container-color: transparent !important;
+
+  .mat-mdc-text-field-wrapper,
+  .mdc-text-field,
+  .mat-mdc-form-field-flex,
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .mat-mdc-form-field-infix {
+    padding: 6px 0 !important;
+    min-height: unset !important;
+  }
+
+  .mdc-line-ripple {
+    display: none !important;
+  }
+
+  .mat-mdc-form-field-underline,
+  .mdc-text-field__underline {
+    display: none !important;
+  }
+
+  .mat-mdc-input-element {
+    font-family: 'Oxygen', sans-serif !important;
+    font-size: 15px !important;
+    color: #2d3748 !important;
+    padding: 4px 0 !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-bottom: 1.5px solid #cbd5e0 !important;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-bottom-color: #2dbdb1 !important;
+    }
+
+    &::placeholder {
+      color: #a0aec0 !important;
+      font-family: 'Oxygen', sans-serif;
+    }
+  }
+}
+
+/* Hashtag-specific underline & text color */
+.hashtag-input-wrapper {
+  ::ng-deep .clean-field .mat-mdc-input-element {
+    color: var(--hashtag-color) !important;
+    border-bottom-color: var(--hashtag-color) !important;
+    font-weight: 500;
+
+    &::placeholder {
+      color: var(--hashtag-color) !important;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* Actions footer */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+
+  .pill-button,
+  .action-button {
+    border-radius: 10px !important;
+    min-width: 96px;
+    height: 40px;
+    padding: 0 24px !important;
+    font-family: 'Oxygen', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-transform: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .back-button {
+    border: 1.5px solid #2dbdb1 !important;
+    color: #2dbdb1 !important;
+    background: transparent !important;
+
+    &:hover {
+      background-color: rgba(45, 189, 177, 0.08) !important;
+    }
+  }
+
+  .next-button {
+    background-color: #2dbdb1 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(45, 189, 177, 0.25) !important;
+
+    &:hover:not([disabled]) {
+      background-color: #26a399 !important;
+      box-shadow: 0 4px 12px rgba(45, 189, 177, 0.35) !important;
+    }
+
+    &[disabled] {
+      background-color: #e2e8f0 !important;
+      color: #a0aec0 !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+/* CDK Drag & Drop preview and animations */
+.cdk-drag-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.2;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.goals-list.cdk-drop-list-dragging .goal-row:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .goals-card {
+    padding: 24px 20px;
+  }
+
+  .goal-row {
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .hashtag-input-wrapper {
+      width: 100%;
+      margin-left: 36px;
+    }
+  }
+
+  .card-header .card-title {
+    font-size: 22px;
   }
 }
