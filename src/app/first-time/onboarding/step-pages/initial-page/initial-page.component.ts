@@ -1,9 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, input, output, inject, WritableSignal, Signal, signal, computed, Inject, Injector } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
 import { InitialPageAnimations } from './initial-page.animations';
-import { User } from 'src/app/core/store/user/user.model';
-import { AuthStore } from 'src/app/core/store/auth/auth.store';
-import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
+/**
+ * Presentational Welcome card shown as the first step of onboarding
+ * (`OnboardingState.WELCOME`). Purely driven by inputs — the parent
+ * (`OnboardingComponent`) supplies the greeting name and loading state,
+ * and owns what happens once the user clicks "Next".
+ */
 @Component({
   selector: 'app-initial-page',
   templateUrl: './initial-page.component.html',
@@ -11,34 +16,29 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: InitialPageAnimations,
   standalone: true,
-  imports: [
-  ],
+  imports: [MatButton, MatIcon],
 })
-export class InitialPageComponent implements OnInit {
-  readonly authStore = inject(AuthStore);
+export class InitialPageComponent {
   // --------------- INPUTS AND OUTPUTS ------------------
 
-  /** The current signed in user. */
-  currentUser: Signal<User> = this.authStore.user;
+  /** First name to greet, already split from the full name by the parent. */
+  firstName = input.required<string>();
 
-  // --------------- LOCAL UI STATE ----------------------
+  /** Whether the Next button should show a disabled/loading state. */
+  loading = input<boolean>(false);
 
-  /** Loading icon. */
-  loading: WritableSignal<boolean> = signal(false);
+  /** Emitted when the user clicks the Next button. */
+  next = output<void>();
 
   // --------------- COMPUTED DATA -----------------------
 
+  /** Full greeting text, falling back to a plain "Welcome." when no name is available. */
+  greeting = computed(() => this.firstName() ? `Welcome, ${this.firstName()}.` : 'Welcome.');
+
   // --------------- EVENT HANDLING ----------------------
 
-  // --------------- OTHER -------------------------------
-
-  constructor(
-    private injector: Injector,
-    @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
-  ) { }
-
-  // --------------- LOAD AND CLEANUP --------------------
-  
-  ngOnInit(): void {
+  /** Called when the user clicks the Next button. */
+  onNext(): void {
+    this.next.emit();
   }
 }

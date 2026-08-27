@@ -1,7 +1,62 @@
+$teal: #3cbfae;
+$teal-light: #eafaf8;
+$text-dark: #4b5853;
+$text-muted: #6b7570;
+
 :host {
   display: block;
-  .initial-page-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+  width: 100%;
+
+  .initial-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 24px;
+
+    .initial-page__icon-ring {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px solid $teal-light;
+      margin-bottom: 24px;
+
+      .initial-page__icon {
+        color: $teal;
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    .initial-page__heading {
+      font-size: 28px;
+      font-weight: 500;
+      color: $text-dark;
+      margin: 0 0 16px;
+    }
+
+    .initial-page__subtext {
+      font-size: 16px;
+      color: $text-muted;
+      margin: 0 0 40px;
+      max-width: 320px;
+    }
+
+    .initial-page__next {
+      align-self: stretch;
+      // Override Material's theme primary (indigo-pink) with the app's teal.
+      --mdc-filled-button-container-color: #{$teal};
+      --mdc-filled-button-label-text-color: white;
+      --mat-mdc-button-persistent-ripple-color: white;
+
+      @media (min-width: 768px) {
+        align-self: flex-end;
+        min-width: 120px;
+      }
+    }
   }
 }

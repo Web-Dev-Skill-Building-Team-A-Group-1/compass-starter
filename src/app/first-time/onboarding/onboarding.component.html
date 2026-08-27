@@ -1,3 +1,30 @@
-<div class="onboarding-container">
-   <div>add onboarding flow here!</div>
-</div>
+@if (currentUser()) {
+  <div class="onboarding-shell">
+    <header class="onboarding-shell__header">
+      <button mat-icon-button type="button" class="onboarding-shell__back" aria-label="Back">
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      </button>
+      <button mat-button type="button" class="onboarding-shell__logout">
+        Logout
+        <mat-icon aria-hidden="true">logout</mat-icon>
+      </button>
+    </header>
+
+    <app-progress-bar
+      class="onboarding-shell__progress"
+      [steps]="progressBarSteps"
+      [currentStepIndex]="progressBarStepIndex()"
+    />
+
+    <div class="onboarding-shell__content">
+      @switch (activeStep()) {
+        @case (OnboardingState.WELCOME) {
+          <app-initial-page [firstName]="firstName()" [loading]="loading()" (next)="handleNext()" />
+        }
+        @case (OnboardingState.STEP_1) {
+          <app-onboard-long-term-goals />
+        }
+      }
+    </div>
+  </div>
+}

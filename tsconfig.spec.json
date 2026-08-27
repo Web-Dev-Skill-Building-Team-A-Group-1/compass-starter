@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"],
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "outDir": "./out-tsc/spec"
   },
   "include": [

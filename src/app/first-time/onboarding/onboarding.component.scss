@@ -1,5 +1,65 @@
+$teal: #3cbfae;
+$teal-light: #eafaf8;
+$text-dark: #4b5853;
+$divider-color: rgba(0, 0, 0, 0.08);
+$desktop-breakpoint: 768px;
+
 :host {
   display: block;
-  .onboarding-container {
+  min-height: 100%;
+
+  .onboarding-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .onboarding-shell__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: white;
+      border-bottom: 1px solid $divider-color;
+
+      .onboarding-shell__back {
+        color: $teal;
+      }
+
+      .onboarding-shell__logout {
+        color: $teal;
+
+        @media (min-width: $desktop-breakpoint) {
+          // Matches the desktop mockup, which doesn't show a Logout affordance
+          visibility: hidden;
+        }
+      }
+    }
+
+    .onboarding-shell__progress {
+      padding: 24px 16px 0;
+
+      @media (min-width: $desktop-breakpoint) {
+        padding: 32px 48px 0;
+      }
+    }
+
+    .onboarding-shell__content {
+      flex: 1;
+      display: flex;
+      padding: 24px 16px;
+
+      @media (min-width: $desktop-breakpoint) {
+        justify-content: center;
+        padding: 48px;
+
+        > * {
+          width: 100%;
+          max-width: 600px;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+      }
+    }
   }
 }

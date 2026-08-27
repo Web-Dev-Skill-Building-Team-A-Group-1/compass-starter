@@ -55,3 +55,7 @@ Thumbs.db
 
 # .env
 .env
+
+# Claude Code (local skills, agents, launch config, settings)
+.claude/
+docs-plans/

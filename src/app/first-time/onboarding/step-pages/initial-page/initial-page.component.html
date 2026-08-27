@@ -1,3 +1,18 @@
-<div class="initial-page-container">
-  initial-page works!
+<div class="initial-page">
+  <div class="initial-page__icon-ring">
+    <mat-icon class="initial-page__icon" aria-hidden="true">send</mat-icon>
+  </div>
+  <h1 class="initial-page__heading">{{ greeting() }}</h1>
+  <p class="initial-page__subtext">Compass helps you set goals and reach them. Let's get started.</p>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    class="initial-page__next"
+    [disabled]="loading()"
+    [attr.aria-busy]="loading()"
+    (click)="onNext()"
+  >
+    Next
+  </button>
 </div>

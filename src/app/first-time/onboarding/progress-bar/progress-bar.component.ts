@@ -1,44 +1,25 @@
-import { Component, OnInit, ChangeDetectionStrategy, input, output, inject, WritableSignal, Signal, signal, computed, Inject, Injector } from '@angular/core';
-import { ProgressBarAnimations } from './progress-bar.animations';
-import { User } from 'src/app/core/store/user/user.model';
-import { AuthStore } from 'src/app/core/store/auth/auth.store';
-import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 
+/**
+ * Presentational, display-only progress indicator for the onboarding flow.
+ * Renders one marker per label in `steps`, filling markers up through
+ * `currentStepIndex`. Shows labeled markers on desktop and unlabeled dots
+ * (with the labels still present for screen readers) on mobile.
+ */
 @Component({
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: ProgressBarAnimations,
   standalone: true,
-  imports: [
-  ],
+  imports: [],
 })
-export class ProgressBarComponent implements OnInit {
-  readonly authStore = inject(AuthStore);
+export class ProgressBarComponent {
   // --------------- INPUTS AND OUTPUTS ------------------
 
-  /** The current signed in user. */
-  currentUser: Signal<User> = this.authStore.user;
+  /** Labels for each progress marker, in order. May contain duplicate labels. */
+  steps = input.required<string[]>();
 
-  // --------------- LOCAL UI STATE ----------------------
-
-  /** Loading icon. */
-  loading: WritableSignal<boolean> = signal(false);
-
-  // --------------- COMPUTED DATA -----------------------
-
-  // --------------- EVENT HANDLING ----------------------
-
-  // --------------- OTHER -------------------------------
-
-  constructor(
-    private injector: Injector,
-    @Inject(BATCH_WRITE_SERVICE) private batch: BatchWriteService,
-  ) { }
-
-  // --------------- LOAD AND CLEANUP --------------------
-  
-  ngOnInit(): void {
-  }
+  /** 0-based index of the currently active marker. */
+  currentStepIndex = input.required<number>();
 }

@@ -1,3 +1,26 @@
-<div class="progress-bar-container">
-  progress-bar works!
-</div>
+<ol class="progress-bar" aria-label="Onboarding progress">
+  <!-- track $index: steps is a static list that can contain duplicate labels
+       (e.g. "Organize" appears twice), so labels can't be used as a track key. -->
+  @for (step of steps(); track $index) {
+    <li
+      class="progress-bar__step"
+      [class.progress-bar__step--filled]="$index <= currentStepIndex()"
+      [attr.aria-current]="$index === currentStepIndex() ? 'step' : null"
+    >
+      @if ($index > 0) {
+        <span
+          class="progress-bar__connector"
+          [class.progress-bar__connector--filled]="$index <= currentStepIndex()"
+          aria-hidden="true"
+        ></span>
+      }
+      <span class="progress-bar__marker" aria-hidden="true"></span>
+      <span class="progress-bar__label">
+        {{ step }}
+        @if ($index < currentStepIndex()) {
+          <span class="visually-hidden"> (completed)</span>
+        }
+      </span>
+    </li>
+  }
+</ol>
