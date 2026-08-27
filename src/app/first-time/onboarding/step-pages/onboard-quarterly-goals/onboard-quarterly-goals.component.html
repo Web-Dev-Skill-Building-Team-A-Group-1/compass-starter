@@ -1,3 +1,78 @@
 <div class="onboard-quarterly-goals-container">
-  onboard-quarterly-goals works!
+  <div class="goals-card">
+    <header class="card-header">
+      <h1 class="card-title">Set some goals for this quarter.</h1>
+      <p class="card-subtitle">Add hashtags to link quarterly goals to weekly goals.</p>
+    </header>
+
+    <form [formGroup]="goalsForm" class="goals-form">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event)"
+        class="goals-list"
+        formArrayName="goals"
+      >
+        <div
+          *ngFor="let goalGroup of goalsArray.controls; let i = index"
+          class="goal-row"
+          cdkDrag
+          [formGroupName]="i"
+        >
+          <!-- 6-dot Drag Handle -->
+          <div class="drag-handle" cdkDragHandle title="Drag to reorder">
+            <mat-icon class="dots-icon">drag_indicator</mat-icon>
+          </div>
+
+          <!-- Goal Text Input -->
+          <div class="goal-input-wrapper">
+            <mat-form-field appearance="fill" class="clean-field goal-text-field" subscriptSizing="dynamic">
+              <input
+                matInput
+                placeholder="Enter your goal"
+                formControlName="text"
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Colored Hashtag Input -->
+          <div
+            class="hashtag-input-wrapper"
+            [style.--hashtag-color]="goalGroup.get('hashtagColor')?.value"
+          >
+            <span class="hashtag-prefix" [style.color]="goalGroup.get('hashtagColor')?.value">#</span>
+            <mat-form-field appearance="fill" class="clean-field hashtag-field" subscriptSizing="dynamic">
+              <input
+                matInput
+                placeholder="hashtag"
+                formControlName="hashtagName"
+                (blur)="formatHashtag(i)"
+                [style.color]="goalGroup.get('hashtagColor')?.value"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="card-actions">
+        <button
+          type="button"
+          mat-stroked-button
+          class="pill-button back-button"
+          (click)="onBack()"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          mat-flat-button
+          class="pill-button next-button"
+          (click)="onNext()"
+          [disabled]="loading() || goalsForm.invalid"
+        >
+          Next
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

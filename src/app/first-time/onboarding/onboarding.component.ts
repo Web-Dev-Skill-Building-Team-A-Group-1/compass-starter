@@ -4,6 +4,8 @@ import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
 
+import { OnboardQuarterlyGoalsComponent } from './step-pages/onboard-quarterly-goals/onboard-quarterly-goals.component';
+
 @Component({
   selector: 'app-onboarding',
   templateUrl: './onboarding.component.html',
@@ -11,6 +13,9 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   animations: OnboardingAnimations,
+  imports: [
+    OnboardQuarterlyGoalsComponent,
+  ],
 })
 export class OnboardingComponent implements OnInit {
   authStore = inject(AuthStore);
