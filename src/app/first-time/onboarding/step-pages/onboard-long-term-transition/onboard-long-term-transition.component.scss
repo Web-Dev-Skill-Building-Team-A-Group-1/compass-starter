@@ -1,7 +1,153 @@
+$primary: #2dbdb1;
+$primary-hover: #26a59b;
+$secondary: #e1fbf9;
+$text-dark: #2c3e50;
+$text-muted: #55697a;
+
 :host {
-  display: block;
-  .onboard-long-term-transition-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.transition-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(45, 189, 177, 0.08);
+  width: 100%;
+  max-width: 680px;
+  padding: 48px 40px 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.transition-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+}
+
+.icon-wrapper {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .transition-logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(45, 189, 177, 0.15));
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.04);
+    }
   }
 }
+
+.transition-title {
+  font-family: 'Oxygen', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: $text-dark;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.transition-subtitle {
+  font-family: 'Oxygen', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $text-muted;
+  margin: 0;
+}
+
+.transition-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 48px;
+
+  button {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    min-width: 108px;
+    height: 42px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .back-btn {
+    color: $primary;
+    border: 1.5px solid $primary;
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba(45, 189, 177, 0.08);
+    }
+  }
+
+  .next-btn {
+    background-color: $primary;
+    color: #ffffff;
+    border: none;
+
+    &:hover {
+      background-color: $primary-hover;
+      box-shadow: 0 4px 12px rgba(45, 189, 177, 0.3);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    padding: 16px 12px;
+    min-height: 100%;
+  }
+
+  .transition-card {
+    padding: 32px 20px 24px;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .icon-wrapper .transition-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .transition-title {
+    font-size: 26px;
+  }
+
+  .transition-subtitle {
+    font-size: 15px;
+  }
+
+  .transition-actions {
+    margin-top: 36px;
+    justify-content: space-between;
+
+    button {
+      flex: 1;
+      max-width: 140px;
+    }
+  }
+}
+
