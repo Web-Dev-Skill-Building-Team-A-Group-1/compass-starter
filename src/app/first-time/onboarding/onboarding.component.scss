@@ -1,7 +1,3 @@
-$teal: #3cbfae;
-$teal-light: #eafaf8;
-$text-dark: #4b5853;
-$divider-color: rgba(0, 0, 0, 0.08);
 $desktop-breakpoint: 768px;
 
 :host {
@@ -12,28 +8,6 @@ $desktop-breakpoint: 768px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
-    .onboarding-shell__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
-      background: white;
-      border-bottom: 1px solid $divider-color;
-
-      .onboarding-shell__back {
-        color: $teal;
-      }
-
-      .onboarding-shell__logout {
-        color: $teal;
-
-        @media (min-width: $desktop-breakpoint) {
-          // Matches the desktop mockup, which doesn't show a Logout affordance
-          visibility: hidden;
-        }
-      }
-    }
 
     .onboarding-shell__progress {
       padding: 24px 16px 0;

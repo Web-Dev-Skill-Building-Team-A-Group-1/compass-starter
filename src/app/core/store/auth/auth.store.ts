@@ -130,16 +130,5 @@ export const AuthStore = signalStore(
         throw e;
       }
     },
-    /**
-     * Advances the signed-in user's onboarding progress to `newState`.
-     * Writes a partial update to the user's own Firestore doc, matching the
-     * partial-update pattern `login`/`logout` already use. This is a pessimistic
-     * write — `store.user()` only reflects the new state once the existing
-     * `loadAuth()` Firestore listener picks up the change, not immediately on call.
-     */
-    async advanceOnboardingState(newState: OnboardingState): Promise<void> {
-      const userId = store.user().__id;
-      await db.updateEntity('users', userId, { onboardingState: newState });
-    },
   })),
 );

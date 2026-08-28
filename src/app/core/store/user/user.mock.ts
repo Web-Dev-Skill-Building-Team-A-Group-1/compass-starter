@@ -8,7 +8,7 @@ export const UserMockDB = signalStore(
   withEntitiesForMockDB<User>(),
 );
 
-/** Creates a mock User entity, with sensible defaults that can be overridden per test. */
+/** For Jest tests. Creates a mock User entity, with sensible defaults that can be overridden per test. */
 export function createMockUser(overrides: Partial<User> = {}): User {
   return Object.assign({
     __id: 'mock-user-1',

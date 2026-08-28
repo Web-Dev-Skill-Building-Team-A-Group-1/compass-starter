@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, WritableSignal, Signal, sig
 import { OnboardingAnimations } from './onboarding.animations';
 import { User, OnboardingState } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
-import { MatIconButton, MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import { UserStore } from 'src/app/core/store/user/user.store';
+import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { InitialPageComponent } from './step-pages/initial-page/initial-page.component';
 import { OnboardLongTermGoalsComponent } from './step-pages/onboard-long-term-goals/onboard-long-term-goals.component';
@@ -25,13 +25,11 @@ const PROGRESS_STEPS = ['Long Term Goals', 'Quarter Goals', 'Organize', 'Weekly 
 
 /**
  * Smart shell for the onboarding flow. Renders the step component that matches
- * the signed-in user's `onboardingState`, plus the persistent chrome (back
- * button, "Logout" link, and progress bar) shared across every step.
+ * the signed-in user's `onboardingState`, plus the persistent chrome (shared
+ * navbar and progress bar) shared across every step.
  *
  * Currently only wires the Welcome step (`OnboardingState.WELCOME`): clicking
  * "Next" advances the user to `STEP_1`, which renders `OnboardLongTermGoalsComponent`.
- * The back button and "Logout" link render per the Figma design but are not yet
- * wired to any behavior.
  */
 @Component({
   selector: 'app-onboarding',
@@ -40,10 +38,11 @@ const PROGRESS_STEPS = ['Long Term Goals', 'Quarter Goals', 'Organize', 'Weekly 
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   animations: OnboardingAnimations,
-  imports: [MatIconButton, MatButton, MatIcon, ProgressBarComponent, InitialPageComponent, OnboardLongTermGoalsComponent],
+  imports: [NavbarComponent, ProgressBarComponent, InitialPageComponent, OnboardLongTermGoalsComponent],
 })
 export class OnboardingComponent {
   private readonly authStore = inject(AuthStore);
+  private readonly userStore = inject(UserStore);
 
   // --------------- INPUTS AND OUTPUTS ------------------
 
@@ -74,18 +73,17 @@ export class OnboardingComponent {
   /**
    * Called when the Welcome step emits `next`. Advances the user's
    * onboarding state to STEP_1 so the long-term-goals step renders next.
-   * On failure, logs the error and lets the user retry — there's no
-   * dedicated error UI for this action (see architect-plan.md Appendix).
+   * `UserStore.update()` manages the loading signal and already logs
+   * failures itself — the `.catch()` here just prevents an unhandled
+   * rejection, since there's no dedicated error UI for this action (see
+   * architect-plan.md Appendix) and the user can just retry.
    */
   async handleNext(): Promise<void> {
-    this.loading.set(true);
-    try {
-      await this.authStore.advanceOnboardingState(OnboardingState.STEP_1);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.loading.set(false);
-    }
+    await this.userStore.update(
+      this.currentUser().__id,
+      { onboardingState: OnboardingState.STEP_1 },
+      { loading: this.loading },
+    ).catch(() => {});
   }
 
   // --------------- OTHER -------------------------------
