@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Inject, inject,
-WritableSignal, Signal, signal} from '@angular/core';
+  WritableSignal, Signal, signal } from '@angular/core';
 import { LongTermGoalsModalAnimations } from './long-term-goals-modal.animations';
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -32,27 +32,26 @@ import { LongTermGoalStore } from '../../../../core/store/long-term-goal/long-te
   ],
 })
 export class LongTermGoalsModalComponent implements OnInit {
- 
   // --------------- INPUTS AND OUTPUTS ------------------
   readonly longTermGoalStore = inject(LongTermGoalStore);
   readonly fb = inject(FormBuilder);
 
 
   // --------------- LOCAL UI STATE ----------------------
-    
+
   /** Loading icon. */
   loading: WritableSignal<boolean> = signal(false);
-  
+
   noWhitespaceValidator: ValidatorFn = (control): ValidationErrors | null => {
     const value = control.value;
-  
+
     if (typeof value !== 'string') {
       return null;
     }
-  
-    return value.trim().length === 0
-      ? { whitespace: true }
-      : null;
+
+    return value.trim().length === 0 ?
+      { whitespace: true } :
+      null;
   };
   // --------------- COMPUTED DATA -----------------------
 
@@ -63,41 +62,40 @@ export class LongTermGoalsModalComponent implements OnInit {
   // --------------- EVENT HANDLING ----------------------
 
   async saveGoals() {
-  if (this.longTermGoalsForm.invalid) {
-    this.longTermGoalsForm.markAllAsTouched();
-    return;
-  }
-
-  const formValue = this.longTermGoalsForm.getRawValue();
-  const existingGoal = this.data.incompleteGoals[0];
-
-  try {
-    this.loading.set(true);
-
-    if (existingGoal) {
-      await this.longTermGoalStore.update(
-        existingGoal.__id,
-        {
-          oneYear: formValue.oneYear ?? '',
-          fiveYear: formValue.fiveYear ?? '',
-        },
-      );
-    } else {
-      await this.longTermGoalStore.add({
-        __userId: this.data.userId,
-        oneYear: formValue.oneYear ?? '',
-        fiveYear: formValue.fiveYear ?? '',
-      });
+    if (this.longTermGoalsForm.invalid) {
+      this.longTermGoalsForm.markAllAsTouched();
+      return;
     }
 
-    this.dialogRef.close(true);
+    const formValue = this.longTermGoalsForm.getRawValue();
+    const existingGoal = this.data.incompleteGoals[0];
 
-  } catch (error) {
-    console.error('Failed to save long-term goals:', error);
-  } finally {
-    this.loading.set(false);
+    try {
+      this.loading.set(true);
+
+      if (existingGoal) {
+        await this.longTermGoalStore.update(
+          existingGoal.__id,
+          {
+            oneYear: formValue.oneYear ?? '',
+            fiveYear: formValue.fiveYear ?? '',
+          },
+        );
+      } else {
+        await this.longTermGoalStore.add({
+          __userId: this.data.userId,
+          oneYear: formValue.oneYear ?? '',
+          fiveYear: formValue.fiveYear ?? '',
+        });
+      }
+
+      this.dialogRef.close(true);
+    } catch (error) {
+      console.error('Failed to save long-term goals:', error);
+    } finally {
+      this.loading.set(false);
+    }
   }
-}
 
   // --------------- OTHER -------------------------------
 
@@ -111,7 +109,7 @@ export class LongTermGoalsModalComponent implements OnInit {
   ) {}
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
     /*
      * The parent sends existing goals into the dialog.
@@ -128,9 +126,6 @@ export class LongTermGoalsModalComponent implements OnInit {
         oneYear: existingGoal.oneYear ?? '',
         fiveYear: existingGoal.fiveYear ?? '',
       });
-
     }
   }
-
-  
 }

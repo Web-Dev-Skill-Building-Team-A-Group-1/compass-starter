@@ -44,7 +44,7 @@ export class WeeklyGoalsComponent implements OnInit {
   // --------------- LOCAL UI STATE ----------------------
 
   /** For storing the dialogRef in the opened modal. */
-  dialogRef: MatDialogRef<any>;
+  dialogRef: MatDialogRef<WeeklyGoalsModalComponent>;
 
   // --------------- COMPUTED DATA -----------------------
 
@@ -241,14 +241,14 @@ export class WeeklyGoalsComponent implements OnInit {
     // loading uncompleted goals
     this.weeklyGoalStore.load([['__userId', '==', this.currentUser()?.__id], ['completed', '==', false]], { orderBy: 'order' }, (wg) => [
       LoadQuarterlyGoal.create(this.quarterlyGoalStore, [['__id', '==', wg.__quarterlyGoalId]], {}, (qg) => [
-        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {})
+        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {}),
       ]),
     ]);
 
     // loading completed goals
     this.weeklyGoalStore.load([['__userId', '==', this.currentUser()?.__id], ['endDate', '>=', Timestamp.fromDate(getStartWeekDate())]], { orderBy: 'order' }, (wg) => [
       LoadQuarterlyGoal.create(this.quarterlyGoalStore, [['__id', '==', wg.__quarterlyGoalId]], {}, (qg) => [
-        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {})
+        LoadHashtag.create(this.hashtagStore, [['__id', '==', qg.__hashtagId]], {}),
       ]),
     ]);
   }

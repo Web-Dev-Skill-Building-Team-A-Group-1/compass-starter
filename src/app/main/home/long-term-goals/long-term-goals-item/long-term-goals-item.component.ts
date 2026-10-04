@@ -14,12 +14,12 @@ import { User } from 'src/app/core/store/user/user.model';
 })
 export class LongTermGoalsItemComponent implements OnInit {
   // --------------- INPUTS AND OUTPUTS ------------------
-  
+
   /** Header text for the goal. */
-  goalHeader = input<string>(); 
+  goalHeader = input<string>();
   /** Caption for the goal. */
   goalText = input<string>();
-  
+
 
   // --------------- LOCAL UI STATE ----------------------
 
@@ -33,7 +33,7 @@ export class LongTermGoalsItemComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
   }
 }

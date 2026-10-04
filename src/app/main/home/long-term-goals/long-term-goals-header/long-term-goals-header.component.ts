@@ -8,7 +8,7 @@ import {
   signal,
   Inject,
   Injector,
-  output
+  output,
 } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -45,7 +45,7 @@ export class LongTermGoalsHeaderComponent implements OnInit {
   /** The current signed in user. */
   currentUser: Signal<User> = this.authStore.user;
 
-   /** Emitted when the pencil icon is clicked, so a parent can open Long Term Goals modal. */
+  /** Emitted when the pencil icon is clicked, so a parent can open Long Term Goals modal. */
   editClicked = output<void>();
 
   // --------------- LOCAL UI STATE ----------------------

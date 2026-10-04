@@ -18,7 +18,7 @@ import { Timestamp } from '@angular/fire/firestore';
   standalone: true,
   imports: [
     QuarterlyGoalsHeaderComponent,
-    QuarterlyGoalsItemComponent
+    QuarterlyGoalsItemComponent,
   ],
 })
 export class QuarterlyGoalsComponent implements OnInit {
@@ -58,7 +58,7 @@ export class QuarterlyGoalsComponent implements OnInit {
   // --------------- COMPUTED DATA -----------------------
 
   // --------------- EVENT HANDLING ----------------------
-  
+
   checkGoal(newCheckState: boolean) {
     this.snackBar.open(
       'Clicked on checkbox to change state to: ' + newCheckState,
@@ -70,7 +70,7 @@ export class QuarterlyGoalsComponent implements OnInit {
       },
     );
   }
-  
+
   openModal(editClicked: boolean) {
     this.snackBar.open('Edit Goals', '', {
       duration: 3000,
@@ -78,7 +78,7 @@ export class QuarterlyGoalsComponent implements OnInit {
       horizontalPosition: 'center',
     });
   }
-  
+
   // --------------- OTHER -------------------------------
 
   constructor(
@@ -88,7 +88,7 @@ export class QuarterlyGoalsComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
   }
 }

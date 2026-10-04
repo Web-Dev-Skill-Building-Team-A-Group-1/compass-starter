@@ -21,11 +21,11 @@ export class QuarterlyGoalsItemComponent implements OnInit {
   readonly authStore = inject(AuthStore);
   // --------------- INPUTS AND OUTPUTS ------------------
 
-   goal: Signal<QuarterlyGoalData> = input<QuarterlyGoalData>();
+  goal: Signal<QuarterlyGoalData> = input<QuarterlyGoalData>();
   check: OutputEmitterRef<boolean> = output<boolean>();
 
   // --------------- LOCAL UI STATE ----------------------
-    isChecked: boolean = false;
+  isChecked: boolean = false;
 
 
   // --------------- COMPUTED DATA -----------------------
@@ -34,7 +34,7 @@ export class QuarterlyGoalsItemComponent implements OnInit {
   checkGoal() {
     this.isChecked = !this.isChecked;
     this.check.emit(this.isChecked);
-    }
+  }
   // --------------- OTHER -------------------------------
 
   constructor(
@@ -44,7 +44,7 @@ export class QuarterlyGoalsItemComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
   }
 }
