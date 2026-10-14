@@ -1,11 +1,10 @@
 <div class="long-term-goals-item-container">
-  
-  <div class="long-term-goals-item-header">
-    {{ goalHeader() }}
+  <div class="goal-wrapper">
+    <div class="goal-year">1 year</div>
+    <div class="goal-item">{{goal()?.oneYear}}</div>
   </div>
-
-  <div class="long-term-goals-item">
-    {{ goalText() }}
+  <div class="goal-wrapper">
+    <div class="goal-year">5 year</div>
+    <div class="goal-item">{{goal()?.fiveYear}}</div>
   </div>
-  
 </div>

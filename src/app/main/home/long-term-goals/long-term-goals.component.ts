@@ -6,6 +6,7 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
 import { MatDialog } from '@angular/material/dialog';
 import { LongTermGoalsHeaderComponent } from './long-term-goals-header/long-term-goals-header.component';
 import { LongTermGoalsModalComponent} from './long-term-goals-modal/long-term-goals-modal.component';
+import { LongTermGoalsItemComponent } from './long-term-goals-item/long-term-goals-item.component';
 import { LongTermGoalStore } from '../../../core/store/long-term-goal/long-term-goal.store';
 
 @Component({
@@ -15,7 +16,10 @@ import { LongTermGoalStore } from '../../../core/store/long-term-goal/long-term-
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: LongTermGoalsAnimations,
   standalone: true,
-  imports: [ LongTermGoalsHeaderComponent
+  imports: [ 
+    LongTermGoalsHeaderComponent,
+    LongTermGoalsItemComponent,
+    LongTermGoalsModalComponent,
   ],
 })
 export class LongTermGoalsComponent implements OnInit {
@@ -32,38 +36,34 @@ export class LongTermGoalsComponent implements OnInit {
 
   /** Loading icon. */
   loading: WritableSignal<boolean> = signal(false);
-  
 
   // --------------- COMPUTED DATA -----------------------
 
+  /** Load User's Long Term Goal Data */
   longTermGoal = computed(() =>
     this.longTermGoalStore.selectFirst(
-      [['__userId', '==', this.currentUser().__id]],
-      {},
-    ),
-  );
+    [['__userId', '==', this.currentUser().__id]],
+    {},
+   ),
+ );
+  
   // --------------- EVENT HANDLING ----------------------
+  
+  /** Updates Long-term Goals */
   openGoalsModal() {
     const userId = this.currentUser().__id;
-  
-    const incompleteGoals = this.longTermGoalStore.selectEntities(
-      [['__userId', '==', userId]],
-      {},
-    );
-  
     this.dialog.open(LongTermGoalsModalComponent, {
       width: '600px',
       position: {
         bottom: '0',
       },
       data: {
-        incompleteGoals,
+        longTermGoal: this.longTermGoal(),
         userId,
       },
     });
   }
 
- 
   // --------------- OTHER -------------------------------
 
   constructor(
@@ -82,5 +82,3 @@ export class LongTermGoalsComponent implements OnInit {
     );
   }
 }
-
-
