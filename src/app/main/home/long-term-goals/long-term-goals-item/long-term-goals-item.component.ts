@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, input, inject, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
 import { LongTermGoalsItemAnimations } from './long-term-goals-item.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { LongTermGoal } from '../../../../core/store/long-term-goal/long-term-goal.model';
@@ -13,10 +13,10 @@ import { LongTermGoal } from '../../../../core/store/long-term-goal/long-term-go
   imports: [
   ],
 })
-export class LongTermGoalsItemComponent implements OnInit {
+export class LongTermGoalsItemComponent {
   // --------------- INPUTS AND OUTPUTS ------------------
 
-  /** Load User's Long Term Goal Object */
+  /** User's Long Term Goal */
   goal = input<LongTermGoal>();
   
   // --------------- LOCAL UI STATE ----------------------
@@ -31,7 +31,4 @@ export class LongTermGoalsItemComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
-  ngOnInit(): void {
-  }
 }
