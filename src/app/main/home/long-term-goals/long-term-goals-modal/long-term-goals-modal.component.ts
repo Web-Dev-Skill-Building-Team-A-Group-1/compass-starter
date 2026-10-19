@@ -69,7 +69,7 @@ export class LongTermGoalsModalComponent implements OnInit {
   }
 
   const formValue = this.longTermGoalsForm.getRawValue();
-  const existingGoal = this.data.incompleteGoals[0];
+  const existingGoal = this.data.LongTermGoal;
 
   try {
     this.loading.set(true);
@@ -104,7 +104,7 @@ export class LongTermGoalsModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      incompleteGoals: LongTermGoal;
+      LongTermGoal: LongTermGoal;
       userId: string;
     },
     public dialogRef: MatDialogRef<LongTermGoalsModalComponent>,
@@ -121,8 +121,8 @@ export class LongTermGoalsModalComponent implements OnInit {
      * need the first existing document.
      */
 
-    const existingGoal = this.data.incompleteGoals?.[0];
-
+    const existingGoal = this.data.LongTermGoal;
+    
     if (existingGoal) {
       this.longTermGoalsForm.patchValue({
         oneYear: existingGoal.oneYear ?? '',

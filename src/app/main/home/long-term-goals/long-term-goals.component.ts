@@ -57,7 +57,7 @@ export class LongTermGoalsComponent implements OnInit {
         bottom: '0',
       },
       data: {
-        longTermGoal: this.longTermGoal(),
+        LongTermGoal: this.longTermGoal(),
         userId,
       },
     });
