@@ -54,6 +54,7 @@ export class LongTermGoalsHeaderComponent implements OnInit {
   loading: WritableSignal<boolean> = signal(false);
 
   // --------------- EVENT HANDLING ----------------------
+  
   /** Opens up Long Term Goals Modal! */
   onEditLongTermGoals() {
     this.editClicked.emit();

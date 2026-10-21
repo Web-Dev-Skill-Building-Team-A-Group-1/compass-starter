@@ -1,19 +1,25 @@
 .long-term-goals-item-container {
-  display: flex;
-  flex-direction: column;
-  width: 387px;
+  width: 100%;
   background-color: #FFFFFF;
-  padding: 4px 32px 4px 32px;
-  gap: 4px;
-  font-size: 16px;
-  font-family: Oxygen;
-  color: #4B5853;
-  
-  .long-term-goals-item-header {
-    font-weight: 700;
-  }
 
-  .long-term-goals-item {
-    font-weight: 400;
+  .goal-wrapper{
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-family: Oxygen;
+    padding-top: 10px;
+    color: #4B5853;
+    border-bottom: 1px solid #00000026;
+  
+    h1 {
+      font-size: 16px;
+      font-weight: 700;  
+      line-height: 16px;
+    }
+  
+    .goal-item {
+      text-wrap: wrap;
+      padding-bottom: 10px;
+    }
   }
-}
+}  

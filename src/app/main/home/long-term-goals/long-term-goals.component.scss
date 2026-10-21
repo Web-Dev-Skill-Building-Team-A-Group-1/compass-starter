@@ -1,7 +1,17 @@
-:host {
+.long-term-goals-container {
+  background-color: white;
+  border-radius: 12.5px;
+  border: 4px solid #E1FBF9;
+  box-shadow: 0 6px 15px #0000001A;
+  overflow: hidden;
   display: block;
-  .long-term-goals-container {
+  max-width: 387px;
+  max-height: 591px;
+  
+  .card-body{
+    padding: 20px 24px 20px 24px; 
+    background-color: white;
+    width: 334px;
+    height: 591px;
   }
 }
-
-

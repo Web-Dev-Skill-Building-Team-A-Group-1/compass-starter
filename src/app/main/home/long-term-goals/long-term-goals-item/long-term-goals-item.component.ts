@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, input, inject, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, WritableSignal, Signal, signal, Inject, Injector } from '@angular/core';
 import { LongTermGoalsItemAnimations } from './long-term-goals-item.animations';
 import { User } from 'src/app/core/store/user/user.model';
+import { LongTermGoal } from '../../../../core/store/long-term-goal/long-term-goal.model';
 
 @Component({
   selector: 'app-long-term-goals-item',
@@ -12,7 +13,7 @@ import { User } from 'src/app/core/store/user/user.model';
   imports: [
   ],
 })
-export class LongTermGoalsItemComponent implements OnInit {
+export class LongTermGoalsItemComponent {
   // --------------- INPUTS AND OUTPUTS ------------------
 
   /** Header text for the goal. */
@@ -21,6 +22,9 @@ export class LongTermGoalsItemComponent implements OnInit {
   goalText = input<string>();
 
 
+  /** User's Long Term Goal */
+  goal = input<LongTermGoal>();
+  
   // --------------- LOCAL UI STATE ----------------------
 
   // --------------- COMPUTED DATA -----------------------
@@ -33,7 +37,4 @@ export class LongTermGoalsItemComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-
-  ngOnInit(): void {
-  }
 }
