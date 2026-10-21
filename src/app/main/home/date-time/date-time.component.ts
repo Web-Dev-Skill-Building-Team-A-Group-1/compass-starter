@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
   standalone: true,
   imports: [
     DatePipe,
-    
+
   ],
 })
 export class DateTimeComponent implements OnInit {
@@ -32,22 +32,22 @@ export class DateTimeComponent implements OnInit {
   loading: WritableSignal<boolean> = signal(false);
 
   // --------------- COMPUTED DATA -----------------------
-time: Signal<Date> = toSignal(
-  interval(1000).pipe(
-	map(() => new Date())
-  ),
-  { initialValue: new Date() }
-);
+  time: Signal<Date> = toSignal(
+    interval(1000).pipe(
+      map(() => new Date()),
+    ),
+    { initialValue: new Date() },
+  );
 
   dateSuffix: Signal<string> = computed(() => {
-  const currentDay = this.time().getDate();
-  if (currentDay > 3 && currentDay < 21) return 'th';
-  switch (currentDay % 10) {
-    case 1: return 'st';
-    case 2: return 'nd';
-    case 3: return 'rd';
-    default: return 'th';
-  }
+    const currentDay = this.time().getDate();
+    if (currentDay > 3 && currentDay < 21) return 'th';
+    switch (currentDay % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
   });
   // --------------- EVENT HANDLING ----------------------
 
@@ -59,7 +59,7 @@ time: Signal<Date> = toSignal(
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
   }
 }

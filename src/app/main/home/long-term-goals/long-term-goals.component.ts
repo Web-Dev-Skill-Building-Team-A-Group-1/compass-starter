@@ -70,7 +70,7 @@ export class LongTermGoalsComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
     this.longTermGoalStore.load(
       [['__userId', '==', this.currentUser().__id]],

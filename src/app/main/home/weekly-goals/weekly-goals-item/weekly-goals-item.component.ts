@@ -16,20 +16,20 @@ import { WeeklyGoalData } from '../../home.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: WeeklyGoalsItemAnimations,
   standalone: true,
-  imports: [MatCheckbox, MatProgressSpinner,],
+  imports: [MatCheckbox, MatProgressSpinner],
 })
 export class WeeklyGoalsItemComponent implements OnInit {
   // --------------- INPUTS AND OUTPUTS ------------------
-  
+
   goal: Signal<WeeklyGoalData> = input<WeeklyGoalData>();
   check: OutputEmitterRef<WeeklyGoalData> = output<WeeklyGoalData>();
-  
+
   // --------------- LOCAL UI STATE ----------------------
-  
+
   // --------------- COMPUTED DATA -----------------------
 
   isChecked: Signal<boolean> = computed(() => this.goal()?.completed ?? false);
-  
+
   // --------------- EVENT HANDLING ----------------------
   checkGoal() {
     this.check.emit(this.goal());
@@ -37,7 +37,7 @@ export class WeeklyGoalsItemComponent implements OnInit {
 
   // --------------- OTHER -------------------------------
   constructor(private snackBar: MatSnackBar) {}
-  
+
 
   // --------------- LOAD AND CLEANUP --------------------
   ngOnInit(): void {}

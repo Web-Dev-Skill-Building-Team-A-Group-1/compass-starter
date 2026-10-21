@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: true,
   imports: [],
 })
-  
+
 export class WeeklyGoalsHeaderComponent implements OnInit {
   readonly authStore = inject(AuthStore);
   // --------------- INPUTS AND OUTPUTS ------------------
@@ -40,7 +40,7 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   startOfWeek = startOfWeek;
 
   // --------------- EVENT HANDLING ----------------------
-/**
+  /**
   * Function to edit goals when user clicks on pencil icon
   */
   editGoals() {
@@ -55,7 +55,7 @@ export class WeeklyGoalsHeaderComponent implements OnInit {
   ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
-  
+
   ngOnInit(): void {
   }
 }

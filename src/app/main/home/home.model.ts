@@ -4,7 +4,7 @@ import { Hashtag } from '../../core/store/hashtag/hashtag.model';
 import { QuarterlyGoal } from '../../core/store/quarterly-goal/quarterly-goal.model';
 import { endOfWeek, startOfWeek } from '../../core/utils/time.utils';
 
-export{ WeeklyGoal, QuarterlyGoal }
+export { WeeklyGoal, QuarterlyGoal };
 
 export interface WeeklyGoalData extends WeeklyGoal { hashtag: Hashtag }
 export interface QuarterlyGoalData extends QuarterlyGoal { hashtag: Hashtag }
