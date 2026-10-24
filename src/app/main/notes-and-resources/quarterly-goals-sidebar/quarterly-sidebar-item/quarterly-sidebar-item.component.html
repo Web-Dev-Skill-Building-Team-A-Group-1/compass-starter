@@ -1,3 +1,9 @@
 <div class="quarterly-sidebar-item-container">
-  quarterly-sidebar-item works!
+    <mat-checkbox 
+      [checked] = "isCompleted()"
+      (change) = "onCheckboxChange($event)">
+      
+      <span class="goal-text" [class.completed-goal]="isCompleted()">{{ goalText() }}</span>
+    </mat-checkbox> 
+  
 </div>

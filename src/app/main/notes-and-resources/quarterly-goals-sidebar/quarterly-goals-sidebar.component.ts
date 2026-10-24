@@ -3,6 +3,12 @@ import { QuarterlyGoalsSidebarAnimations } from './quarterly-goals-sidebar.anima
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { MatInputModule } from '@angular/material/input';
+import { QuarterlySidebarItemComponent } from './quarterly-sidebar-item/quarterly-sidebar-item.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-quarterly-goals-sidebar',
@@ -11,24 +17,29 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: QuarterlyGoalsSidebarAnimations,
   standalone: true,
-  imports: [
-  ],
+  imports: [QuarterlySidebarItemComponent, 
+            MatCheckboxModule, 
+            FormsModule, 
+            MatFormFieldModule, 
+            MatInputModule],
 })
 export class QuarterlyGoalsSidebarComponent implements OnInit {
   readonly authStore = inject(AuthStore);
+
   // --------------- INPUTS AND OUTPUTS ------------------
 
   /** The current signed in user. */
   currentUser: Signal<User> = this.authStore.user;
 
   // --------------- LOCAL UI STATE ----------------------
-
   /** Loading icon. */
   loading: WritableSignal<boolean> = signal(false);
 
   // --------------- COMPUTED DATA -----------------------
+  
 
   // --------------- EVENT HANDLING ----------------------
+  
 
   // --------------- OTHER -------------------------------
 

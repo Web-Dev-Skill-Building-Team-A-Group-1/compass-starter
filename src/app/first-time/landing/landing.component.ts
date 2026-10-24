@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, inject, Signal, Injector } 
 import { LandingAnimations } from './landing.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
+import { QuarterlyGoalsSidebarComponent } from '../../main/notes-and-resources/quarterly-goals-sidebar/quarterly-goals-sidebar.component';
 
 @Component({
   selector: 'app-landing',
@@ -10,6 +11,7 @@ import { AuthStore } from 'src/app/core/store/auth/auth.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: LandingAnimations,
   standalone: true,
+  imports: [QuarterlyGoalsSidebarComponent],
 })
 export class LandingComponent implements OnInit {
   readonly authStore = inject(AuthStore);

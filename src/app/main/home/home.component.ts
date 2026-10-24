@@ -8,6 +8,7 @@ import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.compon
 import { QuarterlyGoalsComponent } from './quarterly-goals/quarterly-goals.component';
 import { WeeklyGoalsComponent } from './weekly-goals/weekly-goals.component';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,18 +19,16 @@ import { WeeklyGoalsComponent } from './weekly-goals/weekly-goals.component';
   imports: [
     WeeklyGoalsComponent,
     NavbarComponent,
-    LongTermGoalsComponent, 
+    LongTermGoalsComponent,
     QuarterlyGoalsComponent
   ]
 })
 export class HomeComponent implements OnInit {
   authStore = inject(AuthStore);
-  
   // --------------- INPUTS AND OUTPUTS ------------------
 
   /** The currently signed in user. */
   currentUser: Signal<User> = this.authStore.user;
-  
   // --------------- LOCAL UI STATE ----------------------
 
   // --------------- COMPUTED DATA -----------------------

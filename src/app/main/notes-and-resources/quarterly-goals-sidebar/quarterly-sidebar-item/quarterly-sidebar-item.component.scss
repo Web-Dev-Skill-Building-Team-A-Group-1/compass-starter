@@ -1,7 +1,27 @@
-:host {
-  display: block;
+display: block;
   .quarterly-sidebar-item-container {
-    // REMOVE WHEN FINISHING LAYOUT STYLES
-    border: 1px solid black;
+    
+    span.goal-text {
+      color: #5A5A5A;
+      font-family: 'Oxygen';
+    }
+      
+    .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
+      background-color: #2DBDB1 !important;
+      border-color: #2DBDB1 !important;
+    }
+    
+    .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__checkmark-path {
+      stroke: #5A5A5A !important;
+    }
+    
+    .mat-mdc-checkbox:not(.mat-mdc-checkbox-checked) .mdc-checkbox__background {
+      border-color: #2DBDB1 !important;
+    }
+    
+    span.goal-text.completed-goal {
+      text-decoration: line-through;
+      text-decoration-color: currentColor;
+    }
   }
 }
