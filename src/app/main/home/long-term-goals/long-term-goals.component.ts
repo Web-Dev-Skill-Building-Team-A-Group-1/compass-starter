@@ -45,9 +45,9 @@ export class LongTermGoalsComponent implements OnInit {
     {},
    ),
  );
-  
+
   // --------------- EVENT HANDLING ----------------------
-  
+
   /** Updates Long-term Goals */
   openGoalsModal() {
     const userId = this.currentUser().__id;
