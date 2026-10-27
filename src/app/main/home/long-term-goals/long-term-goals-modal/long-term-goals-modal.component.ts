@@ -34,7 +34,7 @@ export class LongTermGoalsModalComponent implements OnInit {
 
   /* Injects long-term goal store as a read-only dependency. */
   readonly longTermGoalStore = inject(LongTermGoalStore);
-  
+
   /* Injects the FormBuilder service as an immutable reference. */
   readonly fb = inject(FormBuilder);
 
@@ -79,33 +79,32 @@ export class LongTermGoalsModalComponent implements OnInit {
       return;
     }
 
-  try {
-    this.loading.set(true);
+    try {
+      this.loading.set(true);
 
-    if (existingGoal) {
-      await this.longTermGoalStore.update(
-        existingGoal.__id,
-        {
+      if (existingGoal) {
+        await this.longTermGoalStore.update(
+          existingGoal.__id,
+          {
+            oneYear: formValue.oneYear ?? '',
+            fiveYear: formValue.fiveYear ?? '',
+          },
+        );
+      } else {
+        await this.longTermGoalStore.add({
+          __userId: this.data.userId,
           oneYear: formValue.oneYear ?? '',
           fiveYear: formValue.fiveYear ?? '',
-        },
-      );
-    } else {
-      await this.longTermGoalStore.add({
-        __userId: this.data.userId,
-        oneYear: formValue.oneYear ?? '',
-        fiveYear: formValue.fiveYear ?? '',
-      });
+        });
+      }
+
+      this.dialogRef.close(true);
+    } catch (error) {
+      console.error('Failed to save long-term goals:', error);
+    } finally {
+      this.loading.set(false);
     }
-
-    this.dialogRef.close(true);
-
-  } catch (error) {
-    console.error('Failed to save long-term goals:', error);
-  } finally {
-    this.loading.set(false);
   }
-}
 
   // --------------- OTHER -------------------------------
 
