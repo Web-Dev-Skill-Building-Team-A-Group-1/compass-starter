@@ -18,13 +18,13 @@ export class LongTermGoalsItemComponent {
 
   /** Header text for the goal. */
   goalHeader = input<string>();
+
   /** Caption for the goal. */
   goalText = input<string>();
 
-
-  /** User's Long Term Goal */
+  /** User's Long Term Goal. */
   goal = input<LongTermGoal>();
-  
+
   // --------------- LOCAL UI STATE ----------------------
 
   // --------------- COMPUTED DATA -----------------------
@@ -32,9 +32,6 @@ export class LongTermGoalsItemComponent {
   // --------------- EVENT HANDLING ----------------------
 
   // --------------- OTHER -------------------------------
-
-  constructor(
-  ) { }
 
   // --------------- LOAD AND CLEANUP --------------------
 }
