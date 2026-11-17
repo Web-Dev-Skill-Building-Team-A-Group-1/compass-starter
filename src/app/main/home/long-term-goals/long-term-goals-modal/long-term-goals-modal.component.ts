@@ -120,7 +120,7 @@ export class LongTermGoalsModalComponent implements OnInit {
      */
 
     const existingGoal = this.data.LongTermGoal;
-    
+
     if (existingGoal) {
       this.longTermGoalsForm.patchValue({
         oneYear: existingGoal.oneYear ?? '',
