@@ -24,7 +24,7 @@ export class LongTermGoalsItemComponent {
 
   /** User's Long Term Goal */
   goal = input<LongTermGoal>();
-  
+
   // --------------- LOCAL UI STATE ----------------------
 
   // --------------- COMPUTED DATA -----------------------
