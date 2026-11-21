@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
   animations: NotesHeaderAnimations,
   standalone: true,
   imports: [
-    MatIconModule
+    MatIconModule,
   ],
 })
 export class NotesHeaderComponent implements OnInit {
