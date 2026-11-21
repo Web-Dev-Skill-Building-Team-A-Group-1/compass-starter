@@ -35,6 +35,7 @@ export class NotesAndResourcesComponent implements OnInit {
   currentUser: Signal<User> = this.authStore.user;
 
   // --------------- LOCAL UI STATE ----------------------
+  
   /** Loading icon. */
   loading: WritableSignal<boolean> = signal(false);
 

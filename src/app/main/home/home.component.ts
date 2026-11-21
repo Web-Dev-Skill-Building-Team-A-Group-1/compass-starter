@@ -7,7 +7,6 @@ import { NavbarComponent } from 'src/app/shared/navbar/navbar.component';
 import { LongTermGoalsComponent } from './long-term-goals/long-term-goals.component';
 import { QuarterlyGoalsComponent } from './quarterly-goals/quarterly-goals.component';
 import { WeeklyGoalsComponent } from './weekly-goals/weekly-goals.component';
-import { NotesAndResourcesComponent } from '../notes-and-resources/notes-and-resources.component';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +29,6 @@ export class HomeComponent implements OnInit {
 
   /** The currently signed in user. */
   currentUser: Signal<User> = this.authStore.user;
-  userId = computed(() => this.currentUser()?.__id);
 
   // --------------- LOCAL UI STATE ----------------------
 
