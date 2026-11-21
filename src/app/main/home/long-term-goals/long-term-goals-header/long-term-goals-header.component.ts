@@ -10,11 +10,9 @@ import {
   Injector,
   output,
 } from '@angular/core';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { LongTermGoalsHeaderAnimations } from './long-term-goals-header.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
@@ -54,7 +52,7 @@ export class LongTermGoalsHeaderComponent implements OnInit {
   loading: WritableSignal<boolean> = signal(false);
 
   // --------------- EVENT HANDLING ----------------------
-  
+
   /** Opens up Long Term Goals Modal! */
   onEditLongTermGoals() {
     this.editClicked.emit();
