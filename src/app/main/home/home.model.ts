@@ -8,4 +8,3 @@ export { WeeklyGoal, QuarterlyGoal };
 
 export interface WeeklyGoalData extends WeeklyGoal { hashtag: Hashtag }
 export interface QuarterlyGoalData extends QuarterlyGoal { hashtag: Hashtag }
-

@@ -3,6 +3,9 @@ import { NotesAndResourcesAnimations } from './notes-and-resources.animations';
 import { User } from 'src/app/core/store/user/user.model';
 import { AuthStore } from 'src/app/core/store/auth/auth.store';
 import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch-write.service';
+import { NotesHeaderComponent } from './notes-header/notes-header.component';
+import { QuarterlyGoalStore } from 'src/app/core/store/quarterly-goal/quarterly-goal.store';
+import { HashtagStore } from 'src/app/core/store/hashtag/hashtag.store';
 
 @Component({
   selector: 'app-notes-and-resources',
@@ -12,10 +15,13 @@ import { BatchWriteService, BATCH_WRITE_SERVICE } from 'src/app/core/store/batch
   animations: NotesAndResourcesAnimations,
   standalone: true,
   imports: [
+    NotesHeaderComponent,
   ],
 })
 export class NotesAndResourcesComponent implements OnInit {
   readonly authStore = inject(AuthStore);
+  readonly hashtagStore = inject(HashtagStore);
+  readonly quarterGoalStore = inject(QuarterlyGoalStore);
   // --------------- INPUTS AND OUTPUTS ------------------
 
   /**
@@ -47,5 +53,7 @@ export class NotesAndResourcesComponent implements OnInit {
   // --------------- LOAD AND CLEANUP --------------------
 
   ngOnInit(): void {
+    this.hashtagStore.load([['__userId', '==', this.currentUser().__id]], {});
+    this.quarterGoalStore.load([['__userId', '==', this.currentUser().__id]], {});
   }
 }

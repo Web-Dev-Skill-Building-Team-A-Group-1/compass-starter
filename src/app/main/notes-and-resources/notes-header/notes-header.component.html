@@ -1,3 +1,11 @@
 <div class="notes-header-container">
-  notes-header works!
+  <div class="header-container">
+    <div class="title">Notes and resources</div>
+    @if (hashtag(); as tag) {
+    <div class="subheader-container">
+      For <span class="hashtag">#{{ tag.name }}</span>
+    </div>
+    }
+  </div>
+  <mat-icon class="close-icon">close</mat-icon>
 </div>
