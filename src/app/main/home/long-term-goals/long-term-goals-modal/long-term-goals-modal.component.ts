@@ -68,7 +68,7 @@ export class LongTermGoalsModalComponent implements OnInit {
     }
 
     const formValue = this.longTermGoalsForm.getRawValue();
-    const existingGoal = this.data.incompleteGoals[0];
+    const existingGoal = this.data.LongTermGoal;
 
     try {
       this.loading.set(true);
